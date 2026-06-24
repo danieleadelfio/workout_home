@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Allenamento">
+<meta name="theme-color" content="#0e0e12">
+<title>Allenamento 30 min</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0e0e12;--surface:#18181f;--border:#2a2a35;
+  --accent:#ff5f2e;--accent2:#ff9a00;--text:#f0f0f0;
+  --muted:#7a7a8a;--success:#32d583;--rest:#4e9fff;
+}
+html,body{
+  height:100%;background:var(--bg);color:var(--text);
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  -webkit-tap-highlight-color:transparent;
+  overflow:hidden;user-select:none;
+}
+.screen{display:none;flex-direction:column;height:100dvh;height:100vh}
+.screen.active{display:flex}
+#home{padding:48px 24px 36px;justify-content:space-between;background:linear-gradient(160deg,#0e0e12 60%,#1a1018)}
+.home-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px}
+.home-title{font-size:36px;font-weight:900;line-height:1.05;background:linear-gradient(90deg,#fff 40%,#ff5f2e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.home-sub{margin-top:6px;font-size:13px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 8px;text-align:center}
+.stat-val{font-size:22px;font-weight:800;color:var(--accent)}
+.stat-lbl{font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:1px}
+.phase-item{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:8px}
+.phase-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.phase-name{font-size:14px;font-weight:600}
+.phase-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.phase-dur{margin-left:auto;font-size:12px;color:var(--muted)}
+.start-btn{margin-top:20px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:18px;font-size:17px;font-weight:800;padding:18px;width:100%;cursor:pointer;box-shadow:0 8px 32px rgba(255,95,46,.35)}
+#workout{position:relative;background:var(--bg)}
+.w-header{padding:48px 20px 14px;background:var(--surface);border-bottom:1px solid var(--border)}
+.progress-wrap{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:12px}
+.progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 1s linear}
+.w-meta{display:flex;justify-content:space-between;align-items:center}
+.phase-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:700}
+.step-info{font-size:12px;color:var(--muted)}
+.timer-section{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 24px;gap:10px}
+.ring-wrap{position:relative;width:190px;height:190px}
+.ring-svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:var(--border);stroke-width:8}
+.ring-fg{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1s linear,stroke .4s}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.timer-digits{font-size:52px;font-weight:900;line-height:1;letter-spacing:-2px}
+.timer-unit{font-size:10px;color:var(--muted);letter-spacing:2px;margin-top:2px}
+.set-dots{display:flex;gap:8px;min-height:16px;align-items:center}
+.set-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background .3s}
+.ex-name{font-size:24px;font-weight:800;text-align:center;line-height:1.2}
+.ex-detail{font-size:14px;color:var(--muted);text-align:center}
+.ex-tip{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px;font-size:13px;color:var(--muted);text-align:center;line-height:1.5;width:100%}
+.controls{display:flex;gap:12px;padding:16px 20px calc(16px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--border)}
+.ctrl{flex:1;border:none;border-radius:14px;font-size:15px;font-weight:700;padding:15px;cursor:pointer;font-family:inherit}
+.ctrl-stop{background:transparent;border:1px solid var(--border)!important;color:var(--muted);flex:0 0 52px}
+.ctrl-pause{background:var(--border);color:var(--text)}
+.ctrl-skip{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+#done{align-items:center;justify-content:center;padding:40px 24px;gap:18px;background:radial-gradient(ellipse at 50% 30%,#1a1018,#0e0e12)}
+.done-icon{font-size:72px}
+.done-title{font-size:32px;font-weight:900;text-align:center;background:linear-gradient(90deg,#fff 30%,var(--success));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.done-sub{font-size:14px;color:var(--muted);text-align:center;line-height:1.6}
+.done-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
+.done-stat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center}
+.done-stat-val{font-size:28px;font-weight:900;color:var(--success)}
+.done-stat-lbl{font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:1px}
+.restart-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:18px;font-size:16px;font-weight:800;padding:18px;width:100%;cursor:pointer;font-family:inherit}
+</style>
+</head>
+<body>
+<div id="home" class="screen active">
+  <div>
+    <div class="home-label">Il tuo allenamento</div>
+    <div class="home-title">30 min<br>corpo libero</div>
+    <div class="home-sub">3 giri · 5 esercizi · a casa tua</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-val">30'</div><div class="stat-lbl">Durata</div></div>
+      <div class="stat"><div class="stat-val">3</div><div class="stat-lbl">Giri</div></div>
+      <div class="stat"><div class="stat-val">5</div><div class="stat-lbl">Esercizi</div></div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot" style="background:var(--accent2)"></div>
+      <div><div class="phase-name">Riscaldamento</div><div class="phase-sub">5 esercizi · ~5 min</div></div>
+      <div class="phase-dur">5'</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot" style="background:var(--accent)"></div>
+      <div><div class="phase-name">Circuito principale</div><div class="phase-sub">3 giri x 5 esercizi</div></div>
+      <div class="phase-dur">20'</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot" style="background:var(--success)"></div>
+      <div><div class="phase-name">Defaticamento</div><div class="phase-sub">Stretching + respiro</div></div>
+      <div class="phase-dur">5'</div>
+    </div>
+  </div>
+  <button class="start-btn" onclick="startWorkout()">Inizia allenamento &rarr;</button>
+</div>
+
+<div id="workout" class="screen">
+  <div class="w-header">
+    <div class="progress-wrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="w-meta">
+      <div class="phase-label" id="phaseLabel">-</div>
+      <div class="step-info" id="stepInfo">-</div>
+    </div>
+  </div>
+  <div class="timer-section">
+    <div class="ring-wrap">
+      <svg class="ring-svg" viewBox="0 0 190 190">
+        <circle class="ring-bg" cx="95" cy="95" r="85"/>
+        <circle class="ring-fg" id="ringFg" cx="95" cy="95" r="85" stroke="#ff5f2e" stroke-dasharray="534" stroke-dashoffset="0"/>
+      </svg>
+      <div class="ring-center">
+        <div class="timer-digits" id="timerDigits">00</div>
+        <div class="timer-unit" id="timerUnit">SEC</div>
+      </div>
+    </div>
+    <div class="set-dots" id="setDots"></div>
+    <div class="ex-name" id="exName">-</div>
+    <div class="ex-detail" id="exDetail">-</div>
+    <div class="ex-tip" id="exTip">-</div>
+  </div>
+  <div class="controls">
+    <button class="ctrl ctrl-stop" id="stopBtn" onclick="stopWorkout()">X</button>
+    <button class="ctrl ctrl-pause" id="pauseBtn" onclick="togglePause()">Pausa</button>
+    <button class="ctrl ctrl-skip" onclick="skipStep()">Avanti &rarr;</button>
+  </div>
+</div>
+
+<div id="done" class="screen">
+  <div class="done-icon">&#127942;</div>
+  <div class="done-title">Ottimo lavoro!</div>
+  <div class="done-sub">Hai completato il tuo allenamento.<br>Il corpo ha gia iniziato a rispondere.</div>
+  <div class="done-stats">
+    <div class="done-stat"><div class="done-stat-val">30</div><div class="done-stat-lbl">Minuti</div></div>
+    <div class="done-stat"><div class="done-stat-val">3</div><div class="done-stat-lbl">Giri</div></div>
+    <div class="done-stat"><div class="done-stat-val">15</div><div class="done-stat-lbl">Serie</div></div>
+    <div class="done-stat"><div class="done-stat-val">~120</div><div class="done-stat-lbl">Ripetizioni</div></div>
+  </div>
+  <button class="restart-btn" onclick="showScreen('home')">&larr; Torna alla home</button>
+</div>
+
+<script>
+const CIRC = 2 * Math.PI * 85;
+const WARMUP = [
+  {name:"Marcia sul posto",detail:"Solleva le ginocchia con ritmo costante",tip:"Respira lentamente, entra in temperatura",icon:"",secs:60},
+  {name:"Rotazioni spalle + collo",detail:"Ampi cerchi lenti, poi il collo",tip:"Non forzare il collo, movimenti morbidi",icon:"",secs:60},
+  {name:"Leg swing",detail:"Tieniti a un muro, oscilla ogni gamba",tip:"La gamba rimane rilassata, non rigida",icon:"",secs:60},
+  {name:"Squat lentissimi",detail:"3 sec giu, 1 sec su - peso sui talloni",tip:"Ginocchia non oltre la punta dei piedi",icon:"",secs:60},
+  {name:"Jumping jack leggeri",detail:"Ritmo basso, atterraggi morbidi",tip:"Se le ginocchia protestano, marcia sul posto",icon:"",secs:60},
+];
+const CIRCUIT = [
+  {name:"Squat",detail:"3x12 - 3 sec giu, 1 sec su",tip:"Talloni sempre a terra, schiena dritta",icon:"",secs:50},
+  {name:"Push-up",detail:"3x10 - anche sulle ginocchia va benissimo",tip:"Corpo rigido come un asse, no butt-up",icon:"",secs:45},
+  {name:"Affondi alternati",detail:"3x10 per gamba - passo ampio",tip:"Il ginocchio posteriore sfiora il pavimento",icon:"",secs:55},
+  {name:"Plank",detail:"3x25 sec - core attivato",tip:"Glutei stretti, non trattenere il respiro",icon:"",secs:25},
+  {name:"Glute bridge",detail:"3x15 - 1 sec in alto, lento giu",tip:"Spingi con i talloni, non con la schiena",icon:"",secs:50},
+];
+const REST_EX = {name:"Riposo",detail:"Respira e recupera",tip:"Bevi un sorso d acqua se vuoi",icon:"",secs:20,isRest:true};
+const REST_ROUND = {name:"Riposo tra i giri",detail:"Recupero completo",tip:"Scuoti braccia e gambe, respira profondo",icon:"",secs:75,isRest:true};
+const COOLDOWN = [
+  {name:"Stretching quadricipiti",detail:"30 sec per gamba - tieniti a un muro",tip:"Tira il piede verso il gluteo lentamente",icon:"",secs:65},
+  {name:"Stretching polpacci",detail:"30 sec per gamba - passo indietro",tip:"Tallone posteriore a terra, schiena dritta",icon:"",secs:65},
+  {name:"Stretching petto",detail:"Apri le braccia, tieniti a una porta",tip:"Senti lo stretching davanti alle spalle",icon:"",secs:40},
+  {name:"Stretching spalle",detail:"Porta un braccio sul petto, 20 sec per lato",tip:"Mantieni le spalle abbassate",icon:"",secs:45},
+  {name:"Respirazione profonda",detail:"5 respiri lenti: 4 sec in - 6 sec fuori",tip:"Hai finito. Ottimo lavoro!",icon:"",secs:40},
+];
+
+function modeColor(m){return m==="warmup"?"#ff9a00":m==="work"?"#ff5f2e":m==="rest"?"#4e9fff":"#32d583";}
+
+function buildSteps(){
+  const s=[];
+  WARMUP.forEach((ex,i)=>{
+    s.push({...ex,phase:"RISCALDAMENTO",mode:"warmup"});
+    if(i<WARMUP.length-1)s.push({...REST_EX,phase:"RISCALDAMENTO",mode:"warmup"});
+  });
+  for(let r=0;r<3;r++){
+    CIRCUIT.forEach((ex,i)=>{
+      s.push({...ex,phase:"GIRO "+(r+1)+" / 3",mode:"work",round:r});
+      if(i<CIRCUIT.length-1)s.push({...REST_EX,phase:"GIRO "+(r+1)+" / 3",mode:"work"});
+    });
+    if(r<2)s.push({...REST_ROUND,phase:"RIPOSO",mode:"rest"});
+  }
+  COOLDOWN.forEach((ex,i)=>{
+    s.push({...ex,phase:"DEFATICAMENTO",mode:"cooldown"});
+    if(i<COOLDOWN.length-1)s.push({...REST_EX,phase:"DEFATICAMENTO",mode:"cooldown"});
+  });
+  return s;
+}
+
+let steps=[],cur=0,timeLeft=0,elapsed=0,totalSecs=0,paused=false,ticker=null;
+
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function fmt(s){if(s>=60)return Math.floor(s/60)+":"+String(s%60).padStart(2,'0');return String(s).padStart(2,'0');}
+function vib(p){if(navigator.vibrate)navigator.vibrate(p);}
+
+function render(){
+  const step=steps[cur];
+  const col=modeColor(step.mode);
+  const pct=step.secs>0?timeLeft/step.secs:0;
+  const offset=CIRC*(1-pct);
+  document.getElementById('phaseLabel').style.color=col;
+  document.getElementById('phaseLabel').textContent=step.phase;
+  document.getElementById('stepInfo').textContent=(cur+1)+" / "+steps.length;
+  document.getElementById('timerDigits').style.color=col;
+  document.getElementById('timerDigits').textContent=fmt(timeLeft);
+  document.getElementById('timerUnit').textContent=step.secs>=60?'MIN:SEC':'SEC';
+  document.getElementById('ringFg').style.stroke=col;
+  document.getElementById('ringFg').style.strokeDashoffset=offset;
+  document.getElementById('progressFill').style.width=(elapsed/totalSecs*100)+'%';
+  document.getElementById('exName').textContent=step.name;
+  document.getElementById('exDetail').textContent=step.detail||'';
+  document.getElementById('exTip').textContent=step.tip||'';
+  const dots=document.getElementById('setDots');
+  if(step.round!==undefined&&!step.isRest){
+    dots.innerHTML=[0,1,2].map(i=>{
+      const bg=i<step.round?'#ff5f2e':i===step.round?'#ff9a00':'#2a2a35';
+      return '<div class="set-dot" style="background:'+bg+'"></div>';
+    }).join('');
+  }else{dots.innerHTML='';}
+}
+
+function nextStep(){cur++;if(cur>=steps.length){finish();return;}timeLeft=steps[cur].secs;render();}
+
+function tick(){
+  if(paused)return;
+  timeLeft--;elapsed++;render();
+  if(timeLeft<=0){vib([80,60,80]);nextStep();}
+  else if(timeLeft<=3){vib([30]);}
+}
+
+function startWorkout(){
+  steps=buildSteps();
+  totalSecs=steps.reduce((a,s)=>a+s.secs,0);
+  cur=0;elapsed=0;paused=false;timeLeft=steps[0].secs;
+  showScreen('workout');render();vib([100,50,100]);
+  clearInterval(ticker);ticker=setInterval(tick,1000);
+}
+
+function skipStep(){elapsed+=timeLeft;nextStep();}
+
+function togglePause(){
+  paused=!paused;
+  document.getElementById('pauseBtn').textContent=paused?'Riprendi':'Pausa';
+}
+
+function stopWorkout(){
+  if(confirm("Interrompere l allenamento?")){clearInterval(ticker);showScreen('home');}
+}
+
+function finish(){clearInterval(ticker);showScreen('done');vib([200,100,200,100,400]);}
+</script>
+</body>
+</html>
