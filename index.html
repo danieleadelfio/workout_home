@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Allenamento">
+<meta name="theme-color" content="#0e0e12">
+<title>Allenamento · Casa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ─── ONBOARDING ─────────────────────────────────────────────────────────── -->
+<section id="screen-onboarding" class="screen">
+  <div class="onb-header">
+    <h1>Costruiamo il<br>tuo allenamento</h1>
+    <p>Personalizziamo gli esercizi in base a ciò che hai e ai tuoi obiettivi.</p>
+  </div>
+  <div class="onb-body" id="onboardBody"></div>
+  <div class="onb-footer">
+    <button class="btn btn-accent" id="onboardSave" disabled>Scegli almeno un obiettivo</button>
+  </div>
+</section>
+
+<!-- ─── HOME ───────────────────────────────────────────────────────────────── -->
+<section id="screen-home" class="screen active">
+  <div class="home-label">Il tuo allenamento</div>
+  <div class="home-title">Pronto ad<br>allenarti?</div>
+
+  <div class="profile-card">
+    <div class="profile-card-hd">
+      <h3>Il tuo profilo</h3>
+      <button class="profile-edit" id="btnProfile">Modifica</button>
+    </div>
+    <div id="profileSummary"></div>
+    <button class="profile-generate" id="btnGenerate">✨ Genera piano consigliato</button>
+  </div>
+
+  <div class="workout-card">
+    <div class="workout-card-name" id="homeWorkoutName">Allenamento</div>
+    <div class="home-sub" id="homeSub">3 giri · 5 esercizi · a casa tua</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-val" id="statDur">30'</div><div class="stat-lbl">Durata</div></div>
+      <div class="stat"><div class="stat-val" id="statRounds">3</div><div class="stat-lbl">Giri</div></div>
+      <div class="stat"><div class="stat-val" id="statEx">5</div><div class="stat-lbl">Esercizi</div></div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot" style="background:var(--accent2)"></div>
+      <div><div class="phase-name">Riscaldamento</div><div class="phase-sub" id="phWarmupSub">5 esercizi</div></div>
+      <div class="phase-dur" id="phWarmupDur">5'</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot" style="background:var(--accent)"></div>
+      <div><div class="phase-name">Circuito principale</div><div class="phase-sub" id="phCircuitSub">3 giri × 5 esercizi</div></div>
+      <div class="phase-dur" id="phCircuitDur">20'</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot" style="background:var(--success)"></div>
+      <div><div class="phase-name">Defaticamento</div><div class="phase-sub" id="phCooldownSub">Stretching + respiro</div></div>
+      <div class="phase-dur" id="phCooldownDur">5'</div>
+    </div>
+  </div>
+
+  <div class="home-actions">
+    <button class="home-action" id="btnTemplates"><span class="ico">📋</span><span>Template</span></button>
+    <button class="home-action" id="btnFavorites"><span class="ico">⭐</span><span>Preferiti</span></button>
+    <button class="home-action" id="btnEdit"><span class="ico">✏️</span><span>Personalizza</span></button>
+  </div>
+  <div class="home-btns">
+    <button class="start-btn" id="btnStart">Inizia allenamento →</button>
+  </div>
+</section>
+
+<!-- ─── WORKOUT ────────────────────────────────────────────────────────────── -->
+<section id="screen-workout" class="screen">
+  <div class="w-header">
+    <div class="progress-wrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="w-meta">
+      <div class="phase-label" id="phaseLabel">-</div>
+      <div class="step-info" id="stepInfo">-</div>
+    </div>
+  </div>
+  <div class="timer-section">
+    <div class="ring-wrap">
+      <svg class="ring-svg" viewBox="0 0 160 160">
+        <circle class="ring-bg" cx="80" cy="80" r="70"/>
+        <circle class="ring-fg" id="ringFg" cx="80" cy="80" r="70" stroke="#ff5f2e" stroke-dasharray="440" stroke-dashoffset="0"/>
+      </svg>
+      <div class="ring-center">
+        <div class="timer-digits" id="timerDigits">00</div>
+        <div class="timer-unit" id="timerUnit">SEC</div>
+      </div>
+    </div>
+    <div class="set-dots" id="setDots"></div>
+    <div class="ex-name" id="exName">-</div>
+    <div class="ex-detail" id="exDetail">-</div>
+    <button class="video-btn" id="videoBtn" style="display:none">▶ Guarda esempio</button>
+    <div class="ex-tip" id="exTip">-</div>
+  </div>
+  <div class="controls">
+    <button class="ctrl ctrl-stop" id="stopBtn">✕</button>
+    <button class="ctrl ctrl-pause" id="pauseBtn">Pausa</button>
+    <button class="ctrl ctrl-skip" id="btnSkip">Avanti →</button>
+  </div>
+</section>
+
+<!-- ─── DONE ───────────────────────────────────────────────────────────────── -->
+<section id="screen-done" class="screen">
+  <div class="done-icon">🏆</div>
+  <div class="done-title">Ottimo lavoro!</div>
+  <div class="done-sub">Hai completato il tuo allenamento.<br>Il corpo ha già iniziato a rispondere.</div>
+  <div class="done-stats">
+    <div class="done-stat"><div class="done-stat-val" id="doneMin">30</div><div class="done-stat-lbl">Minuti</div></div>
+    <div class="done-stat"><div class="done-stat-val" id="doneRounds">3</div><div class="done-stat-lbl">Giri</div></div>
+    <div class="done-stat"><div class="done-stat-val" id="doneSeries">15</div><div class="done-stat-lbl">Serie</div></div>
+    <div class="done-stat"><div class="done-stat-val" id="doneReps">~120</div><div class="done-stat-lbl">Ripetizioni</div></div>
+  </div>
+  <button class="restart-btn" id="btnDoneHome">← Torna alla home</button>
+</section>
+
+<!-- ─── EDITOR ─────────────────────────────────────────────────────────────── -->
+<section id="screen-editor" class="screen">
+  <div class="subscreen-header">
+    <button class="back" id="edBack">←</button>
+    <div class="title">Personalizza allenamento</div>
+    <button class="ed-reset" id="edReset">Reset</button>
+  </div>
+  <div class="ed-body" id="edBody"></div>
+</section>
+
+<!-- ─── TEMPLATES ──────────────────────────────────────────────────────────── -->
+<section id="screen-templates" class="screen">
+  <div class="subscreen-header">
+    <button class="back" id="tplBack">←</button>
+    <div class="title">Template allenamenti</div>
+  </div>
+  <div class="subscreen-body" id="templatesBody"></div>
+</section>
+
+<!-- ─── FAVORITES ──────────────────────────────────────────────────────────── -->
+<section id="screen-favorites" class="screen">
+  <div class="subscreen-header">
+    <button class="back" id="favBack">←</button>
+    <div class="title">Preferiti</div>
+  </div>
+  <div class="subscreen-body">
+    <div class="fav-save-card">
+      <div class="fav-save-lbl">Salva l'allenamento attuale</div>
+      <input class="fav-save-input" id="favName" type="text" placeholder="Nome allenamento">
+      <button class="btn btn-accent" id="favSave">⭐ Salva nei preferiti</button>
+    </div>
+    <div class="fav-list" id="favList"></div>
+  </div>
+</section>
+
+<!-- ─── STOP MODAL ─────────────────────────────────────────────────────────── -->
+<div class="modal-ov" id="stopModal">
+  <div class="modal-card">
+    <div class="modal-title">Interrompere?</div>
+    <div class="modal-sub">I progressi di questa sessione andranno persi.</div>
+    <div class="modal-btns">
+      <button class="modal-btn modal-cancel" id="stopCancel">Annulla</button>
+      <button class="modal-btn modal-confirm" id="stopConfirm">Interrompi</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── LIBRARY MODAL ──────────────────────────────────────────────────────── -->
+<div id="libraryModal">
+  <div class="lib-hd">
+    <div class="lib-top">
+      <button class="lib-close" id="libClose">✕</button>
+      <div class="lib-title">Aggiungi esercizio</div>
+    </div>
+    <div class="lib-tabs">
+      <button class="lib-tab on" id="libTabBody">🤸 Corpo libero</button>
+      <button class="lib-tab" id="libTabWeights">🏋️ Pesi</button>
+    </div>
+    <div class="filter-row" id="libGoalFilters"></div>
+    <div class="filter-row" id="libEquipFilters"></div>
+  </div>
+  <div class="lib-list" id="libList"></div>
+</div>
+
+<!-- ─── VIDEO MODAL ────────────────────────────────────────────────────────── -->
+<div id="videoModal">
+  <div class="video-top">
+    <div class="title" id="videoTitle">Esempio esercizio</div>
+    <button class="video-close" id="videoClose">✕</button>
+  </div>
+  <div class="video-frame-wrap">
+    <iframe id="videoFrame" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  <div class="video-fallback" id="videoFallback" style="display:none">
+    <p>Nessun video disponibile per questo esercizio.</p>
+    <p style="margin-top:12px"><a href="#" target="_blank" rel="noopener">Cerca su YouTube →</a></p>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
