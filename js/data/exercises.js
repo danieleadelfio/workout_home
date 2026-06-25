@@ -16,7 +16,7 @@ export const EXERCISE_LIBRARY = [
   // ─────────────────────────── BODYWEIGHT · GAMBE ───────────────────────────
   { slug:'squat', name:'Squat', type:'bodyweight', equipment:['none'], muscles:['legs','glutes'], goals:['strength','hypertrophy','tone','fat-loss'], video:'aclHkVaku9U',
     sets:3, reps:12, secs:50, tip:'Talloni a terra, schiena dritta. Scendi fino a cosce parallele al suolo.' },
-  { slug:'squat-sumo', name:'Squat sumo', type:'bodyweight', equipment:['none'], muscles:['legs','glutes'], goals:['tone','hypertrophy','glutes'], video:'L_hd2zz9NXc',
+  { slug:'squat-sumo', name:'Squat sumo', type:'bodyweight', equipment:['none'], muscles:['legs','glutes'], goals:['tone','hypertrophy','glutes'], video:'qB3UjgIxnhA',
     sets:3, reps:12, secs:50, tip:'Piedi larghi, punte a 45 gradi. Ginocchia nella direzione delle punte.' },
   { slug:'lunges', name:'Affondi alternati', type:'bodyweight', equipment:['none'], muscles:['legs','glutes'], goals:['strength','tone','fat-loss'], video:'QOVaHwm-Q6U',
     sets:3, reps:10, secs:55, tip:'Passo ampio. Il ginocchio posteriore sfiora il pavimento senza toccarlo.' },
@@ -88,7 +88,7 @@ export const EXERCISE_LIBRARY = [
     sets:1, reps:0, secs:45, tip:'Porta un braccio sul petto, tienilo con l\'altro. Spalle abbassate.' },
   { slug:'deep-breathing', name:'Respirazione profonda', type:'bodyweight', equipment:['none'], muscles:['mobility'], goals:['mobility'], video:'LiUnFJ8P4gM',
     sets:1, reps:5, secs:40, tip:'4 sec inspira, 6 sec espira. Lascia che il corpo si rilassi completamente.' },
-  { slug:'world-greatest-stretch', name:'World\'s greatest stretch', type:'bodyweight', equipment:['none'], muscles:['mobility','fullbody'], goals:['mobility'], video:'tWQ-vXq-prc',
+  { slug:'world-greatest-stretch', name:'World\'s greatest stretch', type:'bodyweight', equipment:['none'], muscles:['mobility','fullbody'], goals:['mobility'], video:'nnbYao-5bSI',
     sets:1, reps:8, secs:50, tip:'Affondo + rotazione del busto. Mobilita anche e colonna in un solo movimento.' },
 
   // ═══════════════════════════ WEIGHTS · MANUBRI ═══════════════════════════
