@@ -55,6 +55,21 @@ html,body{height:100%;background:var(--bg);color:var(--text);
 .phase-sub{font-size:12px;color:var(--muted);margin-top:2px}
 .phase-dur{margin-left:auto;font-size:12px;color:var(--muted)}
 
+/* Expandable workout stages on the home card */
+.home-phases{display:flex;flex-direction:column;gap:8px}
+.phase{background:var(--surface2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.phase .phase-item{width:100%;background:none;border:none;margin:0;border-radius:0;cursor:pointer;
+  color:var(--text);font-family:inherit;text-align:left}
+.phase-text{flex:1;min-width:0}
+.phase-caret{flex-shrink:0;color:var(--muted);font-size:12px;transition:transform .25s}
+.phase.open .phase-caret{transform:rotate(180deg)}
+.phase-detail{display:none;flex-direction:column;gap:8px;padding:2px 16px 14px 38px}
+.phase.open .phase-detail{display:flex}
+.phase-rounds{font-size:11px;color:var(--accent2);font-weight:700;margin-bottom:2px}
+.phase-ex{display:flex;align-items:baseline;gap:10px}
+.phase-ex-name{flex:1;min-width:0;font-size:13px;font-weight:600}
+.phase-ex-meta{flex-shrink:0;font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap}
+
 .home-actions{display:flex;gap:10px;margin-bottom:10px}
 .home-action{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:14px;
   color:var(--text);font-size:13px;font-weight:700;padding:14px 8px;cursor:pointer;font-family:inherit;
