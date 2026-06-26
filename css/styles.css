@@ -11,7 +11,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);
   font-family:'Inter',system-ui,-apple-system,sans-serif;
   -webkit-tap-highlight-color:transparent;overflow:hidden;user-select:none;}
 .muted{color:var(--muted)}
-.screen{display:none;flex-direction:column;height:100dvh;height:100vh}
+.screen{display:none;flex-direction:column;height:100vh;height:100dvh}
 .screen.active{display:flex}
 
 .btn{border:none;border-radius:14px;font-size:15px;font-weight:700;padding:14px;
@@ -73,7 +73,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);
 .w-meta{display:flex;justify-content:space-between;align-items:center}
 .phase-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:700}
 .step-info{font-size:12px;color:var(--muted)}
-.timer-section{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 24px;gap:9px;overflow:hidden}
+.timer-section{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 24px;gap:9px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .ring-wrap{position:relative;width:170px;height:170px;flex-shrink:0}
 .ring-svg{width:100%;height:100%;transform:rotate(-90deg)}
 .ring-bg{fill:none;stroke:var(--border);stroke-width:8}
@@ -260,3 +260,24 @@ html,body{height:100%;background:var(--bg);color:var(--text);
 
 input[type=number]{-webkit-appearance:none;-moz-appearance:textfield}
 input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+
+/* ─── RESPONSIVE · tablet & desktop ────────────────────────────────────────── */
+/* The UI is designed as a phone-first app. On wider screens we center it in a
+   fixed-width "app frame" instead of stretching everything edge-to-edge. Every
+   screen is a flex column pinned to the dynamic viewport height (100dvh), so
+   sticky headers/footers always stay on screen at any size. */
+@media (min-width:600px){
+  body{background:#08080b}
+  .screen{max-width:460px;margin-inline:auto;border-inline:1px solid var(--border);
+    box-shadow:0 0 80px rgba(0,0,0,.6)}
+  /* Full-screen modals: keep the dark overlay edge-to-edge but center content. */
+  #libraryModal{align-items:center}
+  #libraryModal .lib-hd,#libraryModal .lib-list{width:100%;max-width:520px}
+  .modal-card{max-width:360px}
+}
+/* Tall, narrow phones: make sure tap targets never get crushed. */
+@media (max-height:560px){
+  .ring-wrap{width:128px;height:128px}
+  .timer-digits{font-size:38px}
+  .onb-header h1{font-size:22px}
+}
