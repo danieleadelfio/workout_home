@@ -8,7 +8,7 @@
 import { EXERCISE_BY_SLUG } from './data/exercises.js';
 import { EQUIPMENT_SETS } from './data/equipmentSets.js';
 import { exFromLib } from './state.js';
-import { goalLabel, equipmentLabel } from './data/taxonomy.js';
+import { planName } from './data/i18n-content.js';
 
 // Goal that dictates volume/rest scheme when several are selected.
 const GOAL_PRIORITY = ['strength', 'hypertrophy', 'fat-loss', 'tone', 'endurance', 'mobility'];
@@ -96,12 +96,9 @@ export function generatePlan(profile) {
     }
   }
 
-  const equipNames = equipment.length
-    ? equipment.map(equipmentLabel).join(' & ')
-    : 'Corpo libero';
-
   return {
-    name: `Piano ${goalLabel(pg)} · ${equipNames}`,
+    name: planName(pg, equipment),
+    nameMeta: { goal: pg, equipment: [...equipment] },
     rounds: params.rounds,
     restBetweenEx: params.restEx,
     restBetweenRounds: params.restRounds,

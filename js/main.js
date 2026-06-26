@@ -14,11 +14,37 @@ import { initFavorites, openFavorites } from './favorites.js';
 import { initEditor, openEditor } from './editor.js';
 import { startWorkout, skipStep, togglePause, showStopModal, hideStopModal, confirmStop } from './workout.js';
 import { updateHome } from './ui.js';
+import { initI18n, getLang, setLang, subscribe } from './i18n.js';
+import { startTour, maybeAutoStartTour } from './tour.js';
 import { $ } from './util.js';
 
 function refreshHome() { updateHome(); }
 
+// Reflect the active language in the home toggle.
+function updateLangToggle() {
+  document.querySelectorAll('#langToggle .lang-opt').forEach(b => {
+    b.classList.toggle('on', b.dataset.lang === getLang());
+  });
+}
+
+// Re-render dynamic content of the currently visible screen after a language
+// change (static [data-i18n] nodes are handled by i18n.applyStatic).
+function reRenderActive() {
+  updateLangToggle();
+  updateHome();
+  const id = document.querySelector('.screen.active')?.id;
+  if (id === 'screen-templates') openTemplates(refreshHome);
+  else if (id === 'screen-favorites') openFavorites(refreshHome);
+  else if (id === 'screen-editor') openEditor(refreshHome);
+}
+
 function boot() {
+  // Internationalisation must run first so static text + <html lang> are set
+  // before any dynamic screen is rendered.
+  initI18n();
+  updateLangToggle();
+  subscribe(reRenderActive);
+
   // Init feature modules
   initVideoDelegation();
   initOnboarding();
@@ -29,6 +55,13 @@ function boot() {
 
   // Navigation hooks
   onShow('home', refreshHome);
+
+  // Language toggle + help
+  $('langToggle').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-lang]');
+    if (b) setLang(b.dataset.lang);
+  });
+  $('btnHelp').addEventListener('click', () => startTour());
 
   // Home buttons
   $('btnStart').addEventListener('click', () => { initAudio(); startWorkout(); });
@@ -58,9 +91,10 @@ function boot() {
   const p = getProfile();
   refreshHome();
   if (!p.onboarded) {
-    openOnboarding(() => { refreshHome(); showScreen('home'); });
+    openOnboarding(() => { refreshHome(); showScreen('home'); maybeAutoStartTour(); });
   } else {
     showScreen('home');
+    maybeAutoStartTour();
   }
 }
 

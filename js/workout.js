@@ -6,6 +6,8 @@ import { getConfig } from './store.js';
 import { initAudio, beep } from './audio.js';
 import { openVideo } from './video.js';
 import { showScreen } from './navigation.js';
+import { t } from './i18n.js';
+import { stepName, stepTip } from './data/i18n-content.js';
 import { esc, fmtTime, vib, exerciseDetail, $ } from './util.js';
 
 const RING_CIRC = 2 * Math.PI * 70;   // ring radius = 70
@@ -37,26 +39,26 @@ function modeColor(m) {
 export function buildSteps(cfg) {
   const s = [];
   const restEx = (phase, mode, tip) =>
-    ({ name: 'Riposo', secs: cfg.restBetweenEx, phase, mode, isRest: true, tip });
+    ({ name: t('wk.rest'), secs: cfg.restBetweenEx, phase, mode, isRest: true, tip });
 
   cfg.warmup.forEach((ex, i) => {
-    s.push({ ...ex, phase: 'RISCALDAMENTO', mode: 'warmup' });
-    if (i < cfg.warmup.length - 1) s.push(restEx('RISCALDAMENTO', 'warmup', 'Respira lentamente.'));
+    s.push({ ...ex, phase: t('wk.warmup'), mode: 'warmup' });
+    if (i < cfg.warmup.length - 1) s.push(restEx(t('wk.warmup'), 'warmup', t('wk.tip.breatheSlow')));
   });
 
   for (let r = 0; r < cfg.rounds; r++) {
-    const ph = `GIRO ${r + 1} / ${cfg.rounds}`;
+    const ph = t('wk.round', { r: r + 1, n: cfg.rounds });
     cfg.circuit.forEach((ex, i) => {
       s.push({ ...ex, phase: ph, mode: 'work', round: r });
-      if (i < cfg.circuit.length - 1) s.push(restEx(ph, 'work', "Bevi un sorso d'acqua."));
+      if (i < cfg.circuit.length - 1) s.push(restEx(ph, 'work', t('wk.tip.water')));
     });
     if (r < cfg.rounds - 1)
-      s.push({ name: 'Riposo tra i giri', secs: cfg.restBetweenRounds, phase: 'RIPOSO', mode: 'rest', isRest: true, tip: 'Scuoti braccia e gambe, respira profondo.' });
+      s.push({ name: t('wk.restRounds'), secs: cfg.restBetweenRounds, phase: t('wk.restPhase'), mode: 'rest', isRest: true, tip: t('wk.tip.shake') });
   }
 
   cfg.cooldown.forEach((ex, i) => {
-    s.push({ ...ex, phase: 'DEFATICAMENTO', mode: 'cooldown' });
-    if (i < cfg.cooldown.length - 1) s.push(restEx('DEFATICAMENTO', 'cooldown', 'Respira profondo.'));
+    s.push({ ...ex, phase: t('wk.cooldown'), mode: 'cooldown' });
+    if (i < cfg.cooldown.length - 1) s.push(restEx(t('wk.cooldown'), 'cooldown', t('wk.tip.breathe')));
   });
 
   return s;
@@ -74,13 +76,13 @@ function render() {
   dom.stepInfo.textContent = `${cur + 1} / ${steps.length}`;
   dom.timerDigits.style.color = col;
   dom.timerDigits.textContent = fmtTime(timeLeft);
-  dom.timerUnit.textContent = step.secs >= 60 ? 'MIN:SEC' : 'SEC';
+  dom.timerUnit.textContent = step.secs >= 60 ? t('wk.minsec') : t('wk.sec');
   dom.ringFg.style.stroke = col;
   dom.ringFg.style.strokeDashoffset = offset;
   dom.progressFill.style.width = (elapsed / totalSecs * 100) + '%';
-  dom.exName.textContent = step.name;
+  dom.exName.textContent = stepName(step);
   dom.exDetail.textContent = exerciseDetail(step);
-  dom.exTip.textContent = step.tip || '';
+  dom.exTip.textContent = stepTip(step) || '';
 
   // Round dots
   if (step.round !== undefined && !step.isRest) {
@@ -98,7 +100,7 @@ function render() {
     dom.videoBtn.onclick = () => {
       const wasPaused = paused;
       if (!paused) togglePause();
-      openVideo(step.video, step.name, () => { if (!wasPaused && paused) togglePause(); });
+      openVideo(step.video, stepName(step), () => { if (!wasPaused && paused) togglePause(); });
     };
   } else {
     dom.videoBtn.style.display = 'none';
@@ -139,7 +141,7 @@ export function skipStep() { elapsed += timeLeft; nextStep(); }
 
 export function togglePause() {
   paused = !paused;
-  dom.pauseBtn.textContent = paused ? 'Riprendi' : 'Pausa';
+  dom.pauseBtn.textContent = paused ? t('wk.resume') : t('wk.pause');
 }
 
 export function isPaused() { return paused; }
@@ -148,7 +150,7 @@ function finish() {
   clearInterval(ticker);
   const cfg = getConfig();
   const ws = steps.filter(s => !s.isRest && s.mode === 'work');
-  const tr = ws.reduce((a, s) => a + (s.reps > 0 ? s.reps * (s.sets || 1) : 0), 0);
+  const tr = ws.reduce((a, s) => a + (s.reps > 0 ? s.reps : 0), 0);
   $('doneMin').textContent = Math.round(totalSecs / 60);
   $('doneRounds').textContent = cfg.rounds;
   $('doneSeries').textContent = ws.length;
@@ -159,12 +161,12 @@ function finish() {
 
 // ─── Stop modal ──────────────────────────────────────────────────────────────
 export function showStopModal() {
-  if (!paused) { paused = true; dom.pauseBtn.textContent = 'Riprendi'; }
+  if (!paused) { paused = true; dom.pauseBtn.textContent = t('wk.resume'); }
   $('stopModal').classList.add('open');
 }
 export function hideStopModal() {
   $('stopModal').classList.remove('open');
-  paused = false; dom.pauseBtn.textContent = 'Pausa';
+  paused = false; dom.pauseBtn.textContent = t('wk.pause');
 }
 export function confirmStop() {
   $('stopModal').classList.remove('open');

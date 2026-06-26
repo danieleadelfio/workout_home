@@ -6,6 +6,8 @@
 import { getConfig, setConfig, getFavorites, addFavorite, removeFavorite } from './store.js';
 import { deepClone } from './state.js';
 import { showScreen } from './navigation.js';
+import { localizedConfigName } from './data/i18n-content.js';
+import { t } from './i18n.js';
 import { esc, $ } from './util.js';
 
 let onApply = null;
@@ -29,21 +31,21 @@ function favCard(f) {
   return `<div class="fav-card">
     <div class="fav-info">
       <div class="fav-name">${esc(f.name)}</div>
-      <div class="fav-meta">⏱ ${estMinutes(c)}' · 🔁 ${c.rounds} giri · 🏃 ${c.circuit.length} esercizi</div>
+      <div class="fav-meta">${t('fav.meta', { min: estMinutes(c), rounds: c.rounds, ex: c.circuit.length })}</div>
     </div>
-    <button class="fav-use" data-use="${f.id}" type="button">Usa</button>
-    <button class="fav-del" data-del="${f.id}" type="button" title="Elimina">🗑</button>
+    <button class="fav-use" data-use="${f.id}" type="button">${t('common.use')}</button>
+    <button class="fav-del" data-del="${f.id}" type="button" title="${t('common.delete')}">🗑</button>
   </div>`;
 }
 
 function render() {
   const cfg = getConfig();
-  $('favName').value = cfg.name || 'Allenamento';
+  $('favName').value = localizedConfigName(cfg) || t('common.workout');
 
   const favs = getFavorites();
   $('favList').innerHTML = favs.length
     ? favs.map(favCard).join('')
-    : '<p class="muted" style="padding:24px 8px;text-align:center">Nessun preferito salvato. Salva l\'allenamento attuale per ritrovarlo qui.</p>';
+    : `<p class="muted" style="padding:24px 8px;text-align:center">${t('fav.empty')}</p>`;
 }
 
 export function initFavorites() {
@@ -53,7 +55,7 @@ export function initFavorites() {
     render();
     const btn = $('favSave');
     const prev = btn.textContent;
-    btn.textContent = '✓ Salvato';
+    btn.textContent = t('fav.saved');
     setTimeout(() => { btn.textContent = prev; }, 1100);
   });
 

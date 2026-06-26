@@ -97,6 +97,7 @@ export function configFromTemplate(tpl) {
   const map = arr => arr.map(slug => exFromLib(slug));
   return {
     name: tpl.name,
+    templateId: tpl.id,
     rounds: tpl.rounds,
     restBetweenEx: tpl.restBetweenEx,
     restBetweenRounds: tpl.restBetweenRounds,

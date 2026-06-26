@@ -7,6 +7,10 @@
 </p>
 
 <p align="center">
+  <strong>👉 <a href="https://self-home-workout.netlify.app/">Open the live app · Apri l'app</a></strong>
+</p>
+
+<p align="center">
   <strong>Choose your language · Scegli la lingua</strong><br>
   <a href="#-english">🇬🇧 English</a> &nbsp;·&nbsp; <a href="#-italiano">🇮🇹 Italiano</a>
 </p>
@@ -24,6 +28,8 @@ main circuit and cool-down — tailored to your equipment and your fitness goal.
 It runs entirely in the browser. **No account, no backend, no tracking.** Your
 profile and saved workouts live in your browser's local storage, so everything
 stays on your device.
+
+> 🔗 **Try it now:** [self-home-workout.netlify.app](https://self-home-workout.netlify.app/)
 
 ### ✨ Features
 
@@ -101,6 +107,8 @@ tuo obiettivo.
 Funziona interamente nel browser. **Nessun account, nessun backend, nessun
 tracciamento.** Il tuo profilo e gli allenamenti salvati restano nella memoria
 locale del browser, quindi tutto rimane sul tuo dispositivo.
+
+> 🔗 **Provala ora:** [self-home-workout.netlify.app](https://self-home-workout.netlify.app/)
 
 ### ✨ Funzionalità
 

@@ -9,15 +9,18 @@ import { DEFAULT_CONFIG, deepClone } from './state.js';
 import { setConfig } from './store.js';
 import { openLibrary } from './library.js';
 import { thumbnailButton, parseYouTubeId } from './video.js';
+import { stepName, stepTip } from './data/i18n-content.js';
+import { t } from './i18n.js';
 import { esc, $ } from './util.js';
 import { showScreen } from './navigation.js';
 
 let onChange = null;          // callback to refresh home stats
 
+// Per-phase accent colour + i18n key for the section title.
 const SEC_META = {
-  warmup:   { label: 'Riscaldamento', color: 'var(--accent2)' },
-  circuit:  { label: 'Circuito',      color: 'var(--accent)'  },
-  cooldown: { label: 'Defaticamento', color: 'var(--success)' },
+  warmup:   { key: 'phase.warmup',   color: 'var(--accent2)' },
+  circuit:  { key: 'editor.circuit', color: 'var(--accent)'  },
+  cooldown: { key: 'phase.cooldown', color: 'var(--success)' },
 };
 
 export function openEditor(onChangeCb) {
@@ -38,21 +41,21 @@ function render() {
   gl.className = 'ed-section';
   gl.innerHTML = `<div class="ed-sec-hd" data-toggle>
       <div class="ed-sec-dot" style="background:#888"></div>
-      <div class="ed-sec-title">Impostazioni generali</div>
+      <div class="ed-sec-title">${t('editor.general')}</div>
       <div class="ed-sec-caret open">&#9650;</div></div>
     <div class="ed-sec-body open">
-      <div class="ed-frow"><div class="ed-flbl">Nome</div>
+      <div class="ed-frow"><div class="ed-flbl">${t('editor.name')}</div>
         <input class="ed-finp" type="text" value="${esc(cfg.name || '')}" data-gname></div>
       <div class="ed-globals">
-        <div class="ed-global"><div class="ed-global-lbl">Giri</div>
+        <div class="ed-global"><div class="ed-global-lbl">${t('editor.rounds')}</div>
           <input class="ed-global-inp" type="number" min="1" max="10" value="${cfg.rounds}" data-g="rounds">
-          <div class="ed-global-unit">giri</div></div>
-        <div class="ed-global"><div class="ed-global-lbl">Pausa esercizi</div>
+          <div class="ed-global-unit">${t('editor.roundsUnit')}</div></div>
+        <div class="ed-global"><div class="ed-global-lbl">${t('editor.restEx')}</div>
           <input class="ed-global-inp" type="number" min="5" max="120" value="${cfg.restBetweenEx}" data-g="restBetweenEx">
-          <div class="ed-global-unit">sec</div></div>
-        <div class="ed-global" style="grid-column:span 2"><div class="ed-global-lbl">Pausa tra giri</div>
+          <div class="ed-global-unit">${t('unit.sec')}</div></div>
+        <div class="ed-global" style="grid-column:span 2"><div class="ed-global-lbl">${t('editor.restRounds')}</div>
           <input class="ed-global-inp" type="number" min="10" max="300" value="${cfg.restBetweenRounds}" data-g="restBetweenRounds">
-          <div class="ed-global-unit">sec</div></div>
+          <div class="ed-global-unit">${t('unit.sec')}</div></div>
       </div></div>`;
   body.appendChild(gl);
 
@@ -62,19 +65,21 @@ function render() {
     sec.className = 'ed-section';
     sec.innerHTML = `<div class="ed-sec-hd" data-toggle>
         <div class="ed-sec-dot" style="background:${meta.color}"></div>
-        <div class="ed-sec-title">${meta.label}</div>
+        <div class="ed-sec-title">${t(meta.key)}</div>
         <div class="ed-sec-count" id="count-${phase}"></div>
         <div class="ed-sec-caret">&#9650;</div></div>
       <div class="ed-sec-body">
         <div class="ed-list" id="list-${phase}"></div>
-        <button class="ed-add" data-add="${phase}">&#43; Aggiungi esercizio</button></div>`;
+        <button class="ed-add" data-add="${phase}">${t('editor.addExercise')}</button></div>`;
     body.appendChild(sec);
     renderExList(phase);
   });
 }
 
 function detail(ex) {
-  return ex.sets > 1 && ex.reps > 0 ? `${ex.sets}×${ex.reps}` : `${ex.secs}s`;
+  return ex.reps > 0
+    ? `${t('unit.reps', { n: ex.reps })} · ${t('unit.secs', { n: ex.secs })}`
+    : t('unit.secs', { n: ex.secs });
 }
 
 function renderExList(phase) {
@@ -92,29 +97,28 @@ function renderExList(phase) {
     item.dataset.phase = phase;
     item.innerHTML = `<div class="ed-item-row">
         <div class="drag-h" data-phase="${phase}" data-idx="${idx}">&#8942;</div>
-        ${thumbnailButton(ex.video, ex.name, { small: true })}
+        ${thumbnailButton(ex.video, stepName(ex), { small: true })}
         <div class="ed-item-info">
-          <div class="ed-item-name">${esc(ex.name)}</div>
-          <div class="ed-item-meta">${esc(detail(ex))} &middot; ${ex.secs}s timer</div>
+          <div class="ed-item-name">${esc(stepName(ex))}</div>
+          <div class="ed-item-meta">${esc(detail(ex))}</div>
         </div>
         <button class="ed-item-edit" data-edit="${phase}:${idx}">&#9998;</button>
         <button class="ed-item-del" data-del="${phase}:${idx}">&times;</button>
       </div>
       <div class="ed-form" id="form-${phase}-${idx}">
-        <div class="ed-frow"><div class="ed-flbl">Nome</div>
-          <input class="ed-finp" type="text" value="${esc(ex.name)}" data-f="${phase}:${idx}:name"></div>
+        <div class="ed-frow"><div class="ed-flbl">${t('editor.name')}</div>
+          <input class="ed-finp" type="text" value="${esc(stepName(ex))}" data-f="${phase}:${idx}:name"></div>
         <div class="ed-frow">
-          <div class="ed-flbl">Serie</div>
-          <input class="ed-finp ed-finp-sm" type="number" min="0" max="20" value="${ex.sets}" data-f="${phase}:${idx}:sets">
-          <div class="ed-flbl" style="width:32px">Rip.</div>
+          <div class="ed-flbl">${t('editor.reps')}</div>
           <input class="ed-finp ed-finp-sm" type="number" min="0" max="200" value="${ex.reps}" data-f="${phase}:${idx}:reps">
-          <div class="ed-flbl" style="width:30px">Sec</div>
+          <div class="ed-flbl" style="width:60px">${t('editor.time')}</div>
           <input class="ed-finp ed-finp-sm" type="number" min="5" max="600" value="${ex.secs}" data-f="${phase}:${idx}:secs">
+          <div class="ed-flbl" style="width:auto;flex:1">${t('unit.sec')}</div>
         </div>
-        <div class="ed-frow"><div class="ed-flbl">Tip</div>
-          <input class="ed-finp" type="text" value="${esc(ex.tip || '')}" data-f="${phase}:${idx}:tip"></div>
-        <div class="ed-frow"><div class="ed-flbl">Video</div>
-          <input class="ed-finp" type="text" placeholder="URL o ID YouTube" value="${esc(ex.video || '')}" data-f="${phase}:${idx}:video"></div>
+        <div class="ed-frow"><div class="ed-flbl">${t('editor.tip')}</div>
+          <input class="ed-finp" type="text" value="${esc(stepTip(ex) || '')}" data-f="${phase}:${idx}:tip"></div>
+        <div class="ed-frow"><div class="ed-flbl">${t('editor.video')}</div>
+          <input class="ed-finp" type="text" placeholder="${t('editor.videoPh')}" value="${esc(ex.video || '')}" data-f="${phase}:${idx}:video"></div>
       </div>`;
     listEl.appendChild(item);
   });
@@ -223,7 +227,13 @@ export function initEditor() {
   // Field changes
   body.addEventListener('change', (e) => {
     const gname = e.target.closest('[data-gname]');
-    if (gname) { getConfig().name = gname.value; notify(); return; }
+    if (gname) {
+      const cfg = getConfig();
+      cfg.name = gname.value;
+      delete cfg.nameMeta; delete cfg.templateId;   // custom name overrides auto-localization
+      notify();
+      return;
+    }
 
     const g = e.target.closest('[data-g]');
     if (g) {
@@ -247,14 +257,14 @@ export function initEditor() {
       const item = document.querySelector(`#list-${phase} [data-idx="${idx}"]`);
       if (item) {
         const ex = getConfig()[phase][+idx];
-        item.querySelector('.ed-item-meta').textContent = `${detail(ex)} · ${ex.secs}s timer`;
+        item.querySelector('.ed-item-meta').textContent = `${detail(ex)}`;
         if (key === 'name') item.querySelector('.ed-item-name').textContent = ex.name;
       }
     }
   });
 
   $('edReset').addEventListener('click', () => {
-    if (confirm('Ripristinare l\'allenamento predefinito? Le modifiche andranno perse.')) {
+    if (confirm(t('editor.resetConfirm'))) {
       setConfig(deepClone(DEFAULT_CONFIG));
       render();
       if (onChange) onChange();

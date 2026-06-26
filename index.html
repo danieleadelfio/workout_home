@@ -17,47 +17,54 @@
 <!-- ─── ONBOARDING ─────────────────────────────────────────────────────────── -->
 <section id="screen-onboarding" class="screen">
   <div class="onb-header">
-    <h1>Costruiamo il<br>tuo allenamento</h1>
-    <p>Personalizziamo gli esercizi in base a ciò che hai e ai tuoi obiettivi.</p>
+    <h1 data-i18n-html="onb.title">Costruiamo il<br>tuo allenamento</h1>
+    <p data-i18n="onb.subtitle">Personalizziamo gli esercizi in base a ciò che hai e ai tuoi obiettivi.</p>
   </div>
   <div class="onb-body" id="onboardBody"></div>
   <div class="onb-footer">
-    <button class="btn btn-accent" id="onboardSave" disabled>Scegli almeno un obiettivo</button>
+    <button class="btn btn-accent" id="onboardSave" data-i18n="onb.chooseGoal" disabled>Scegli almeno un obiettivo</button>
   </div>
 </section>
 
 <!-- ─── HOME ───────────────────────────────────────────────────────────────── -->
 <section id="screen-home" class="screen active">
-  <div class="home-label">Il tuo allenamento</div>
-  <div class="home-title">Pronto ad<br>allenarti?</div>
+  <div class="home-topbar">
+    <div class="lang-toggle" id="langToggle" role="group" data-i18n-aria="lang.switch">
+      <button class="lang-opt" data-lang="it" type="button">IT</button>
+      <button class="lang-opt" data-lang="en" type="button">EN</button>
+    </div>
+    <button class="help-btn" id="btnHelp" type="button" data-i18n-aria="help.open" data-i18n-title="help.open">?</button>
+  </div>
+  <div class="home-label" data-i18n="home.label">Il tuo allenamento</div>
+  <div class="home-title" data-i18n-html="home.title">Pronto ad<br>allenarti?</div>
 
   <div class="profile-card">
     <div class="profile-card-hd">
-      <h3>Il tuo profilo</h3>
-      <button class="profile-edit" id="btnProfile">Modifica</button>
+      <h3 data-i18n="home.profileTitle">Il tuo profilo</h3>
+      <button class="profile-edit" id="btnProfile" data-i18n="common.edit">Modifica</button>
     </div>
     <div id="profileSummary"></div>
-    <button class="profile-generate" id="btnGenerate">✨ Genera piano consigliato</button>
+    <button class="profile-generate" id="btnGenerate" data-i18n="home.generate">✨ Genera piano consigliato</button>
   </div>
 
   <div class="workout-card">
     <div class="workout-card-name" id="homeWorkoutName">Allenamento</div>
     <div class="home-sub" id="homeSub">3 giri · 5 esercizi · a casa tua</div>
     <div class="stats">
-      <div class="stat"><div class="stat-val" id="statDur">30'</div><div class="stat-lbl">Durata</div></div>
-      <div class="stat"><div class="stat-val" id="statRounds">3</div><div class="stat-lbl">Giri</div></div>
-      <div class="stat"><div class="stat-val" id="statEx">5</div><div class="stat-lbl">Esercizi</div></div>
+      <div class="stat"><div class="stat-val" id="statDur">30'</div><div class="stat-lbl" data-i18n="home.stat.duration">Durata</div></div>
+      <div class="stat"><div class="stat-val" id="statRounds">3</div><div class="stat-lbl" data-i18n="home.stat.rounds">Giri</div></div>
+      <div class="stat"><div class="stat-val" id="statEx">5</div><div class="stat-lbl" data-i18n="home.stat.exercises">Esercizi</div></div>
     </div>
     <div class="home-phases" id="homePhases"></div>
   </div>
 
   <div class="home-actions">
-    <button class="home-action" id="btnTemplates"><span class="ico">📋</span><span>Template</span></button>
-    <button class="home-action" id="btnFavorites"><span class="ico">⭐</span><span>Preferiti</span></button>
-    <button class="home-action" id="btnEdit"><span class="ico">✏️</span><span>Personalizza</span></button>
+    <button class="home-action" id="btnTemplates"><span class="ico">📋</span><span data-i18n="home.templates">Template</span></button>
+    <button class="home-action" id="btnFavorites"><span class="ico">⭐</span><span data-i18n="home.favorites">Preferiti</span></button>
+    <button class="home-action" id="btnEdit"><span class="ico">✏️</span><span data-i18n="home.customize">Personalizza</span></button>
   </div>
   <div class="home-btns">
-    <button class="start-btn" id="btnStart">Inizia allenamento →</button>
+    <button class="start-btn" id="btnStart" data-i18n="home.start">Inizia allenamento →</button>
   </div>
 </section>
 
@@ -84,36 +91,36 @@
     <div class="set-dots" id="setDots"></div>
     <div class="ex-name" id="exName">-</div>
     <div class="ex-detail" id="exDetail">-</div>
-    <button class="video-btn" id="videoBtn" style="display:none">▶ Guarda esempio</button>
+    <button class="video-btn" id="videoBtn" data-i18n="wk.watchExample" style="display:none">▶ Guarda esempio</button>
     <div class="ex-tip" id="exTip">-</div>
   </div>
   <div class="controls">
     <button class="ctrl ctrl-stop" id="stopBtn">✕</button>
-    <button class="ctrl ctrl-pause" id="pauseBtn">Pausa</button>
-    <button class="ctrl ctrl-skip" id="btnSkip">Avanti →</button>
+    <button class="ctrl ctrl-pause" id="pauseBtn" data-i18n="wk.pause">Pausa</button>
+    <button class="ctrl ctrl-skip" id="btnSkip" data-i18n="wk.next">Avanti →</button>
   </div>
 </section>
 
 <!-- ─── DONE ───────────────────────────────────────────────────────────────── -->
 <section id="screen-done" class="screen">
   <div class="done-icon">🏆</div>
-  <div class="done-title">Ottimo lavoro!</div>
-  <div class="done-sub">Hai completato il tuo allenamento.<br>Il corpo ha già iniziato a rispondere.</div>
+  <div class="done-title" data-i18n="done.title">Ottimo lavoro!</div>
+  <div class="done-sub" data-i18n-html="done.subtitle">Hai completato il tuo allenamento.<br>Il corpo ha già iniziato a rispondere.</div>
   <div class="done-stats">
-    <div class="done-stat"><div class="done-stat-val" id="doneMin">30</div><div class="done-stat-lbl">Minuti</div></div>
-    <div class="done-stat"><div class="done-stat-val" id="doneRounds">3</div><div class="done-stat-lbl">Giri</div></div>
-    <div class="done-stat"><div class="done-stat-val" id="doneSeries">15</div><div class="done-stat-lbl">Serie</div></div>
-    <div class="done-stat"><div class="done-stat-val" id="doneReps">~120</div><div class="done-stat-lbl">Ripetizioni</div></div>
+    <div class="done-stat"><div class="done-stat-val" id="doneMin">30</div><div class="done-stat-lbl" data-i18n="done.minutes">Minuti</div></div>
+    <div class="done-stat"><div class="done-stat-val" id="doneRounds">3</div><div class="done-stat-lbl" data-i18n="done.rounds">Giri</div></div>
+    <div class="done-stat"><div class="done-stat-val" id="doneSeries">15</div><div class="done-stat-lbl" data-i18n="done.series">Serie</div></div>
+    <div class="done-stat"><div class="done-stat-val" id="doneReps">~120</div><div class="done-stat-lbl" data-i18n="done.reps">Ripetizioni</div></div>
   </div>
-  <button class="restart-btn" id="btnDoneHome">← Torna alla home</button>
+  <button class="restart-btn" id="btnDoneHome" data-i18n="done.backHome">← Torna alla home</button>
 </section>
 
 <!-- ─── EDITOR ─────────────────────────────────────────────────────────────── -->
 <section id="screen-editor" class="screen">
   <div class="subscreen-header">
     <button class="back" id="edBack">←</button>
-    <div class="title">Personalizza allenamento</div>
-    <button class="ed-reset" id="edReset">Reset</button>
+    <div class="title" data-i18n="editor.title">Personalizza allenamento</div>
+    <button class="ed-reset" id="edReset" data-i18n="common.reset">Reset</button>
   </div>
   <div class="ed-body" id="edBody"></div>
 </section>
@@ -122,7 +129,7 @@
 <section id="screen-templates" class="screen">
   <div class="subscreen-header">
     <button class="back" id="tplBack">←</button>
-    <div class="title">Template allenamenti</div>
+    <div class="title" data-i18n="templates.title">Template allenamenti</div>
   </div>
   <div class="subscreen-body" id="templatesBody"></div>
 </section>
@@ -131,13 +138,13 @@
 <section id="screen-favorites" class="screen">
   <div class="subscreen-header">
     <button class="back" id="favBack">←</button>
-    <div class="title">Preferiti</div>
+    <div class="title" data-i18n="favorites.title">Preferiti</div>
   </div>
   <div class="subscreen-body">
     <div class="fav-save-card">
-      <div class="fav-save-lbl">Salva l'allenamento attuale</div>
-      <input class="fav-save-input" id="favName" type="text" placeholder="Nome allenamento">
-      <button class="btn btn-accent" id="favSave">⭐ Salva nei preferiti</button>
+      <div class="fav-save-lbl" data-i18n="favorites.saveLabel">Salva l'allenamento attuale</div>
+      <input class="fav-save-input" id="favName" type="text" data-i18n-ph="favorites.namePlaceholder" placeholder="Nome allenamento">
+      <button class="btn btn-accent" id="favSave" data-i18n="favorites.saveBtn">⭐ Salva nei preferiti</button>
     </div>
     <div class="fav-list" id="favList"></div>
   </div>
@@ -146,11 +153,11 @@
 <!-- ─── STOP MODAL ─────────────────────────────────────────────────────────── -->
 <div class="modal-ov" id="stopModal">
   <div class="modal-card">
-    <div class="modal-title">Interrompere?</div>
-    <div class="modal-sub">I progressi di questa sessione andranno persi.</div>
+    <div class="modal-title" data-i18n="stop.title">Interrompere?</div>
+    <div class="modal-sub" data-i18n="stop.subtitle">I progressi di questa sessione andranno persi.</div>
     <div class="modal-btns">
-      <button class="modal-btn modal-cancel" id="stopCancel">Annulla</button>
-      <button class="modal-btn modal-confirm" id="stopConfirm">Interrompi</button>
+      <button class="modal-btn modal-cancel" id="stopCancel" data-i18n="common.cancel">Annulla</button>
+      <button class="modal-btn modal-confirm" id="stopConfirm" data-i18n="stop.confirm">Interrompi</button>
     </div>
   </div>
 </div>
@@ -160,11 +167,11 @@
   <div class="lib-hd">
     <div class="lib-top">
       <button class="lib-close" id="libClose">✕</button>
-      <div class="lib-title">Aggiungi esercizio</div>
+      <div class="lib-title" data-i18n="library.title">Aggiungi esercizio</div>
     </div>
     <div class="lib-tabs">
-      <button class="lib-tab on" id="libTabBody">🤸 Corpo libero</button>
-      <button class="lib-tab" id="libTabWeights">🏋️ Pesi</button>
+      <button class="lib-tab on" id="libTabBody" data-i18n="library.tabBody">🤸 Corpo libero</button>
+      <button class="lib-tab" id="libTabWeights" data-i18n="library.tabWeights">🏋️ Pesi</button>
     </div>
     <div class="filter-row" id="libGoalFilters"></div>
     <div class="filter-row" id="libEquipFilters"></div>
@@ -175,15 +182,15 @@
 <!-- ─── VIDEO MODAL ────────────────────────────────────────────────────────── -->
 <div id="videoModal">
   <div class="video-top">
-    <div class="title" id="videoTitle">Esempio esercizio</div>
+    <div class="title" id="videoTitle" data-i18n="video.title">Esempio esercizio</div>
     <button class="video-close" id="videoClose">✕</button>
   </div>
   <div class="video-frame-wrap">
     <iframe id="videoFrame" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
   </div>
   <div class="video-fallback" id="videoFallback" style="display:none">
-    <p>Nessun video disponibile per questo esercizio.</p>
-    <p style="margin-top:12px"><a href="#" target="_blank" rel="noopener">Cerca su YouTube →</a></p>
+    <p data-i18n="video.noVideo">Nessun video disponibile per questo esercizio.</p>
+    <p style="margin-top:12px"><a href="#" target="_blank" rel="noopener" data-i18n="video.searchYoutube">Cerca su YouTube →</a></p>
   </div>
 </div>
 

@@ -5,10 +5,12 @@
 
 import {
   EQUIPMENT, SELECTABLE_EQUIPMENT, GOALS, conflictingGoals,
+  goalLabel, goalShort, equipmentLabel,
 } from './data/taxonomy.js';
 import { getProfile, setProfile, setConfig } from './store.js';
 import { generatePlan } from './recommend.js';
 import { showScreen } from './navigation.js';
+import { t } from './i18n.js';
 import { $ } from './util.js';
 
 let draft = { equipment: [], goals: [] };
@@ -35,7 +37,7 @@ function render() {
     const on = draft.equipment.includes(id);
     return `<button class="chip-big ${on ? 'on' : ''}" data-equip="${id}" type="button"
       style="${on ? `border-color:${e.color};box-shadow:0 0 0 1px ${e.color}` : ''}">
-      <span class="chip-ico">${e.icon}</span><span>${e.label}</span>
+      <span class="chip-ico">${e.icon}</span><span>${equipmentLabel(id)}</span>
     </button>`;
   }).join('');
 
@@ -46,27 +48,27 @@ function render() {
       ${dis ? 'disabled' : ''}
       style="${on ? `border-color:${g.color};box-shadow:0 0 0 1px ${g.color}` : ''}">
       <span class="chip-ico">${g.icon}</span>
-      <span>${g.label}</span>
-      <small>${g.short}</small>
+      <span>${goalLabel(g.id)}</span>
+      <small>${goalShort(g.id)}</small>
     </button>`;
   }).join('');
 
   $('onboardBody').innerHTML = `
     <div class="onb-block">
-      <h3>Cosa hai a disposizione?</h3>
-      <p class="muted">Il corpo libero è sempre incluso. Seleziona gli attrezzi che possiedi.</p>
+      <h3>${t('onb.equipQ')}</h3>
+      <p class="muted">${t('onb.equipHelp')}</p>
       <div class="chip-grid">${equipChips}</div>
     </div>
     <div class="onb-block">
-      <h3>Qual è il tuo obiettivo?</h3>
-      <p class="muted">Puoi sceglierne più di uno. Obiettivi opposti si escludono a vicenda.</p>
+      <h3>${t('onb.goalQ')}</h3>
+      <p class="muted">${t('onb.goalHelp')}</p>
       <div class="chip-grid">${goalChips}</div>
     </div>`;
 
   const ready = draft.goals.length > 0;
   const btn = $('onboardSave');
   btn.disabled = !ready;
-  btn.textContent = ready ? 'Inizia ad allenarti' : 'Scegli almeno un obiettivo';
+  btn.textContent = ready ? t('onb.start') : t('onb.chooseGoal');
 }
 
 export function initOnboarding() {

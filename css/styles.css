@@ -296,3 +296,34 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   .timer-digits{font-size:38px}
   .onb-header h1{font-size:22px}
 }
+
+/* ─── HOME TOPBAR (language toggle + help) ─────────────────────────────────── */
+.home-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.lang-toggle{display:inline-flex;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.lang-opt{background:none;border:none;color:var(--muted);font-family:inherit;font-size:12px;font-weight:800;
+  letter-spacing:.5px;padding:6px 12px;cursor:pointer}
+.lang-opt.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.help-btn{width:34px;height:34px;border-radius:50%;background:var(--surface);border:1px solid var(--border);
+  color:var(--muted);font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;
+  display:flex;align-items:center;justify-content:center}
+.help-btn:active{transform:scale(.94)}
+
+/* ─── SPOTLIGHT TOUR ───────────────────────────────────────────────────────── */
+.tour-root{position:fixed;inset:0;z-index:1000;display:none}
+.tour-root.on{display:block}
+.tour-highlight{position:fixed;left:0;top:0;width:0;height:0;border-radius:14px;
+  box-shadow:0 0 0 9999px rgba(0,0,0,.74);transition:all .2s ease;pointer-events:none;
+  border:2px solid var(--accent)}
+.tour-tip{position:fixed;width:300px;max-width:calc(100vw - 24px);background:var(--surface);
+  border:1px solid var(--border);border-radius:16px;padding:16px;
+  box-shadow:0 12px 40px rgba(0,0,0,.6);z-index:1001}
+.tour-progress{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:6px}
+.tour-title{font-size:17px;font-weight:900;margin-bottom:8px}
+.tour-body{font-size:13.5px;line-height:1.5;color:var(--text);opacity:.9;margin-bottom:14px}
+.tour-actions{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tour-nav{display:flex;align-items:center;gap:8px}
+.tour-skip{background:none;border:none;color:var(--muted);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:6px}
+.tour-back{background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);
+  font-family:inherit;font-size:13px;font-weight:700;padding:9px 14px;cursor:pointer}
+.tour-next{padding:9px 18px;font-size:13px;border-radius:10px}
+

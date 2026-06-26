@@ -5,9 +5,11 @@
 // ════════════════════════════════════════════════════════════════════════════
 
 import { EXERCISE_LIBRARY } from './data/exercises.js';
-import { GOALS, EQUIPMENT, MUSCLES } from './data/taxonomy.js';
+import { GOALS, EQUIPMENT, goalLabel, equipmentLabel, muscleLabel } from './data/taxonomy.js';
 import { getProfile } from './store.js';
 import { thumbnailButton } from './video.js';
+import { exName } from './data/i18n-content.js';
+import { t } from './i18n.js';
 import { esc, exerciseDetail, $ } from './util.js';
 
 let tab = 'bodyweight';       // 'bodyweight' | 'weights'
@@ -43,16 +45,16 @@ function filtered() {
 function card(ex) {
   const owned = ownsEquipment(ex);
   const missing = ex.equipment.filter(e => e !== 'none' && !new Set(getProfile().equipment || []).has(e));
-  const muscleTags = ex.muscles.map(m => `<span class="lib-tag">${MUSCLES[m] || m}</span>`).join('');
+  const muscleTags = ex.muscles.map(m => `<span class="lib-tag">${muscleLabel(m)}</span>`).join('');
   return `<div class="lib-card ${owned ? '' : 'lib-locked'}">
-    ${thumbnailButton(ex.video, ex.name, { small: true })}
+    ${thumbnailButton(ex.video, exName(ex), { small: true })}
     <div class="lib-info">
-      <div class="lib-name">${esc(ex.name)}</div>
+      <div class="lib-name">${esc(exName(ex))}</div>
       <div class="lib-detail">${exerciseDetail({ ...ex, isRest: false })}</div>
       <div class="lib-tags">${muscleTags}</div>
-      ${!owned ? `<div class="lib-missing">Richiede: ${missing.map(e => EQUIPMENT[e]?.label || e).join(', ')}</div>` : ''}
+      ${!owned ? `<div class="lib-missing">${t('lib.requires', { equip: missing.map(e => equipmentLabel(e)).join(', ') })}</div>` : ''}
     </div>
-    <button class="lib-add" data-slug="${ex.slug}" type="button" title="Aggiungi">+</button>
+    <button class="lib-add" data-slug="${ex.slug}" type="button" title="${t('common.add')}">+</button>
   </div>`;
 }
 
@@ -63,7 +65,7 @@ function render() {
 
   // Goal filter chips
   const goalChips = ['', ...Object.keys(GOALS)].map(g => {
-    const label = g === '' ? 'Tutti' : GOALS[g].label;
+    const label = g === '' ? t('lib.all') : goalLabel(g);
     const on = goalFilter === g;
     return `<button class="filter-chip ${on ? 'on' : ''}" data-goal="${g}" type="button">${label}</button>`;
   }).join('');
@@ -76,7 +78,7 @@ function render() {
     const used = [...new Set(EXERCISE_LIBRARY.filter(e => e.type === 'weights')
       .flatMap(e => e.equipment).filter(e => e !== 'none'))];
     equipWrap.innerHTML = ['', ...used].map(eq => {
-      const label = eq === '' ? 'Tutti gli attrezzi' : (EQUIPMENT[eq]?.label || eq);
+      const label = eq === '' ? t('lib.allEquip') : equipmentLabel(eq);
       const on = equipFilter === eq;
       return `<button class="filter-chip ${on ? 'on' : ''}" data-equip="${eq}" type="button">${label}</button>`;
     }).join('');
@@ -88,7 +90,7 @@ function render() {
   const list = filtered();
   $('libList').innerHTML = list.length
     ? list.map(card).join('')
-    : '<p class="muted" style="padding:24px;text-align:center">Nessun esercizio con questi filtri.</p>';
+    : `<p class="muted" style="padding:24px;text-align:center">${t('lib.empty')}</p>`;
 }
 
 export function initLibrary() {

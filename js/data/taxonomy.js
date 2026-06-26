@@ -1,6 +1,10 @@
 // ════════════════════════════════════════════════════════════════════════════
 // TAXONOMY — equipment, goals, muscle zones. Single source of truth.
+// IT labels live inline on each entry; EN labels live in the *_EN maps below.
+// The label helpers are language-aware (see getLang()).
 // ════════════════════════════════════════════════════════════════════════════
+
+import { getLang } from '../i18n.js';
 
 export const EQUIPMENT = {
   none:       { id: 'none',       label: 'Corpo libero',  icon: '🤸', color: '#32d583' },
@@ -55,9 +59,35 @@ export const MUSCLES = {
 
 // Helpers ---------------------------------------------------------------------
 
-export function goalLabel(id) { return GOALS[id]?.label || id; }
-export function equipmentLabel(id) { return EQUIPMENT[id]?.label || id; }
-export function zoneLabel(id) { return ZONES[id]?.label || id; }
+// English labels keyed by id (IT labels live on the objects above).
+const EQUIPMENT_EN = {
+  none: 'Bodyweight', dumbbell: 'Dumbbells', barbell: 'Barbell',
+  kettlebell: 'Kettlebell', band: 'Bands', bench: 'Bench', pullupbar: 'Pull-up bar',
+};
+const GOALS_EN = {
+  'fat-loss':    { label: 'Fat loss',   short: 'Fat burn' },
+  'strength':    { label: 'Strength',   short: 'Stronger' },
+  'hypertrophy': { label: 'Muscle',     short: 'Hypertrophy' },
+  'tone':        { label: 'Toning',     short: 'Definition' },
+  'endurance':   { label: 'Endurance',  short: 'Cardio' },
+  'mobility':    { label: 'Mobility',   short: 'Flexibility' },
+};
+const ZONES_EN = {
+  'full-body': 'Full body', 'upper': 'Upper body', 'lower': 'Legs',
+  'core': 'Core', 'glutes': 'Glutes',
+};
+const MUSCLES_EN = {
+  legs: 'Legs', glutes: 'Glutes', chest: 'Chest', back: 'Back', shoulders: 'Shoulders',
+  arms: 'Arms', core: 'Core', cardio: 'Cardio', mobility: 'Mobility', fullbody: 'Full body',
+};
+
+const isEn = () => getLang() === 'en';
+
+export function goalLabel(id) { return (isEn() && GOALS_EN[id]?.label) || GOALS[id]?.label || id; }
+export function goalShort(id) { return (isEn() && GOALS_EN[id]?.short) || GOALS[id]?.short || id; }
+export function equipmentLabel(id) { return (isEn() && EQUIPMENT_EN[id]) || EQUIPMENT[id]?.label || id; }
+export function zoneLabel(id) { return (isEn() && ZONES_EN[id]) || ZONES[id]?.label || id; }
+export function muscleLabel(id) { return (isEn() && MUSCLES_EN[id]) || MUSCLES[id] || id; }
 
 // Given a set of selected goals, return the set of goals that must be disabled.
 export function conflictingGoals(selected) {

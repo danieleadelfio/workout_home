@@ -2,6 +2,8 @@
 // UTIL — shared helpers.
 // ════════════════════════════════════════════════════════════════════════════
 
+import { t } from './i18n.js';
+
 export function esc(s) {
   return String(s)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;')
@@ -15,13 +17,13 @@ export function fmtTime(s) {
 
 export function vib(p) { if (navigator.vibrate) navigator.vibrate(p); }
 
-// Human-readable "sets x reps" / time detail for an exercise step.
+// Human-readable target for an exercise step. In this circuit app each round is
+// one set, so we never multiply by "sets" — we just state the per-set target:
+// the rep count for strength moves, or the duration for timed/hold moves.
 export function exerciseDetail(step) {
   if (step.isRest) return '';
-  if (step.sets > 1 && step.reps > 0)   return `${step.sets} × ${step.reps} rip.`;
-  if (step.sets > 1 && step.reps === 0) return `${step.sets} × ${step.secs}s`;
-  if (step.sets === 1 && step.reps > 0) return `${step.reps} rip.`;
-  return `${step.secs} sec`;
+  if (step.reps > 0) return t('detail.reps', { n: step.reps });
+  return t('detail.secs', { n: step.secs });
 }
 
 export function $(id) { return document.getElementById(id); }

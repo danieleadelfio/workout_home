@@ -4,6 +4,8 @@
 // search link when no/invalid video id is set.
 // ════════════════════════════════════════════════════════════════════════════
 
+import { t } from './i18n.js';
+
 // Accepts a raw YouTube id OR a full URL and returns the 11-char video id.
 export function parseYouTubeId(input) {
   if (!input) return '';
@@ -21,7 +23,7 @@ export function thumbUrl(videoId) {
 }
 
 export function searchUrl(name) {
-  return `https://www.youtube.com/results?search_query=${encodeURIComponent('come fare ' + name + ' esercizio')}`;
+  return `https://www.youtube.com/results?search_query=${encodeURIComponent(t('video.searchQuery', { name }))}`;
 }
 
 let onCloseCb = null;
@@ -34,7 +36,7 @@ export function openVideo(videoId, name, onClose) {
   const frame = document.getElementById('videoFrame');
   const title = document.getElementById('videoTitle');
   const fallback = document.getElementById('videoFallback');
-  title.textContent = name || 'Esempio esercizio';
+  title.textContent = name || t('video.title');
 
   if (id) {
     frame.style.display = '';
