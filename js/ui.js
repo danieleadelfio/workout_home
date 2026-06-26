@@ -3,7 +3,7 @@
 // ════════════════════════════════════════════════════════════════════════════
 
 import { getConfig, getProfile } from './store.js';
-import { GOALS, EQUIPMENT, goalLabel, equipmentLabel } from './data/taxonomy.js';
+import { GOALS, EQUIPMENT, LEVELS, goalLabel, equipmentLabel, levelLabel } from './data/taxonomy.js';
 import { stepName, localizedConfigName } from './data/i18n-content.js';
 import { t } from './i18n.js';
 import { esc, $ } from './util.js';
@@ -88,6 +88,9 @@ function renderPhases(cfg, ws, ct, cs) {
 
 function renderProfileSummary() {
   const p = getProfile();
+  const lvId = LEVELS[p.level] ? p.level : 'base';
+  const lv = LEVELS[lvId];
+  const levelChip = `<span class="psum-chip" style="border-color:${lv.color};color:${lv.color}">${lv.icon} ${levelLabel(lvId)}</span>`;
   const goals = (p.goals || []).map(g => {
     const go = GOALS[g];
     return go ? `<span class="psum-chip" style="border-color:${go.color};color:${go.color}">${go.icon} ${goalLabel(g)}</span>` : '';
@@ -99,6 +102,6 @@ function renderProfileSummary() {
   const el = $('profileSummary');
   if (!el) return;
   el.innerHTML = goals || equip
-    ? `<div class="psum-row">${goals}</div><div class="psum-row">${equip}</div>`
+    ? `<div class="psum-row">${levelChip}${goals}</div><div class="psum-row">${equip}</div>`
     : `<div class="muted">${t('home.noProfile')}</div>`;
 }

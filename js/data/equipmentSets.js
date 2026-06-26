@@ -19,6 +19,7 @@ export const EQUIPMENT_SETS = {
     pull:   ['superman'],
     core:   ['plank', 'side-plank', 'crunch', 'reverse-crunch', 'bicycle-crunch', 'hollow-body', 'leg-raise'],
     cardio: ['burpee', 'squat-jump', 'mountain-climber', 'jumping-jack', 'high-knees'],
+    mobility: ['cat-cow', 'world-greatest-stretch', 'quad-stretch', 'hamstring-stretch', 'chest-stretch', 'shoulder-stretch'],
   },
 
   // ─────────────────────────── MANUBRI ───────────────────────────
@@ -56,6 +57,7 @@ export const EQUIPMENT_SETS = {
   pullupbar: {
     pull: ['pullup', 'chinup'],
     core: ['hanging-leg-raise'],
+    mobility: ['dead-hang'],
   },
 
   // ─────────────────────────── PANCA (modificatore) ───────────────────────────

@@ -4,8 +4,8 @@
 // ════════════════════════════════════════════════════════════════════════════
 
 import {
-  EQUIPMENT, SELECTABLE_EQUIPMENT, GOALS, conflictingGoals,
-  goalLabel, goalShort, equipmentLabel,
+  EQUIPMENT, SELECTABLE_EQUIPMENT, GOALS, LEVELS, LEVEL_ORDER, conflictingGoals,
+  goalLabel, goalShort, equipmentLabel, levelLabel, levelShort,
 } from './data/taxonomy.js';
 import { getProfile, setProfile, setConfig } from './store.js';
 import { generatePlan } from './recommend.js';
@@ -13,12 +13,16 @@ import { showScreen } from './navigation.js';
 import { t } from './i18n.js';
 import { $ } from './util.js';
 
-let draft = { equipment: [], goals: [] };
+let draft = { equipment: [], goals: [], level: 'base' };
 let onComplete = null;
 
 export function openOnboarding(onDone) {
   const p = getProfile();
-  draft = { equipment: [...(p.equipment || [])], goals: [...(p.goals || [])] };
+  draft = {
+    equipment: [...(p.equipment || [])],
+    goals: [...(p.goals || [])],
+    level: LEVELS[p.level] ? p.level : 'base',
+  };
   onComplete = onDone || null;
   render();
   showScreen('onboarding');
@@ -53,11 +57,27 @@ function render() {
     </button>`;
   }).join('');
 
+  const levelChips = LEVEL_ORDER.map(id => {
+    const lv = LEVELS[id];
+    const on = draft.level === id;
+    return `<button class="chip-big ${on ? 'on' : ''}" data-level="${id}" type="button"
+      style="${on ? `border-color:${lv.color};box-shadow:0 0 0 1px ${lv.color}` : ''}">
+      <span class="chip-ico">${lv.icon}</span>
+      <span>${levelLabel(id)}</span>
+      <small>${levelShort(id)}</small>
+    </button>`;
+  }).join('');
+
   $('onboardBody').innerHTML = `
     <div class="onb-block">
       <h3>${t('onb.equipQ')}</h3>
       <p class="muted">${t('onb.equipHelp')}</p>
       <div class="chip-grid">${equipChips}</div>
+    </div>
+    <div class="onb-block">
+      <h3>${t('onb.levelQ')}</h3>
+      <p class="muted">${t('onb.levelHelp')}</p>
+      <div class="chip-grid cols-3">${levelChips}</div>
     </div>
     <div class="onb-block">
       <h3>${t('onb.goalQ')}</h3>
@@ -75,13 +95,20 @@ export function initOnboarding() {
   $('onboardBody').addEventListener('click', (e) => {
     const eq = e.target.closest('[data-equip]');
     const go = e.target.closest('[data-goal]');
+    const lv = e.target.closest('[data-level]');
     if (eq) { toggle(draft.equipment, eq.dataset.equip); render(); }
+    else if (lv) { draft.level = lv.dataset.level; render(); }
     else if (go && !go.disabled) { toggle(draft.goals, go.dataset.goal); render(); }
   });
 
   $('onboardSave').addEventListener('click', () => {
     if (draft.goals.length === 0) return;
-    const profile = { equipment: [...draft.equipment], goals: [...draft.goals], onboarded: true };
+    const profile = {
+      equipment: [...draft.equipment],
+      goals: [...draft.goals],
+      level: LEVELS[draft.level] ? draft.level : 'base',
+      onboarded: true,
+    };
     setProfile(profile);
     // Generate a workout tailored to the chosen equipment + goals.
     setConfig(generatePlan(profile));

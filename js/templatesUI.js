@@ -3,8 +3,8 @@
 // user's profile. "Usa questo template" loads it into the current config.
 // ════════════════════════════════════════════════════════════════════════════
 
-import { TEMPLATES, scoreTemplate } from './data/templates.js';
-import { GOALS, EQUIPMENT, ZONES, goalLabel, equipmentLabel, zoneLabel } from './data/taxonomy.js';
+import { TEMPLATES, evalTemplate } from './data/templates.js';
+import { GOALS, EQUIPMENT, ZONES, LEVELS, goalLabel, equipmentLabel, zoneLabel, levelLabel } from './data/taxonomy.js';
 import { getProfile, setConfig } from './store.js';
 import { configFromTemplate } from './state.js';
 import { showScreen } from './navigation.js';
@@ -24,14 +24,21 @@ function badge(text, color) {
   return `<span class="tpl-badge" style="border-color:${color};color:${color}">${esc(text)}</span>`;
 }
 
-function card(tpl, recommended) {
+function card(tpl, evalRes, recommended) {
   const goalBadges = tpl.goals.map(g => {
     const go = GOALS[g];
     return go ? badge(goalLabel(g), go.color) : '';
   }).join('');
+  const lv = LEVELS[tpl.level];
+  const levelBadge = lv ? `<span class="tpl-badge" style="border-color:${lv.color};color:${lv.color}">${lv.icon} ${esc(levelLabel(tpl.level))}</span>` : '';
   const eqLabel = tpl.equipment.map(e => equipmentLabel(e)).join(' · ');
   const zone = ZONES[tpl.zone];
   const totalEx = tpl.circuit.length;
+  const locked = !evalRes.canRun;
+
+  const btn = locked
+    ? `<button class="btn btn-ghost tpl-locked" type="button" disabled>${t('tpl.needEquip')}</button>`
+    : `<button class="btn btn-accent tpl-use" data-tpl="${tpl.id}" type="button">${t('tpl.use')}</button>`;
 
   return `<div class="tpl-card ${recommended ? 'tpl-reco' : ''}">
     ${recommended ? `<div class="tpl-flag">${t('tpl.flag')}</div>` : ''}
@@ -40,38 +47,38 @@ function card(tpl, recommended) {
       ${zone ? `<span class="tpl-zone">${zone.icon} ${zoneLabel(tpl.zone)}</span>` : ''}
     </div>
     <p class="tpl-desc">${esc(tplDesc(tpl))}</p>
-    <div class="tpl-badges">${goalBadges}</div>
+    <div class="tpl-badges">${levelBadge}${goalBadges}</div>
     <div class="tpl-meta">
       <span>${t('tpl.rounds', { n: tpl.rounds })}</span>
       <span>${t('tpl.exercises', { n: totalEx })}</span>
       <span>🧰 ${esc(eqLabel)}</span>
     </div>
-    <button class="btn btn-accent tpl-use" data-tpl="${tpl.id}" type="button">${t('tpl.use')}</button>
+    ${btn}
   </div>`;
 }
 
 function render() {
   const profile = getProfile();
   const scored = TEMPLATES
-    .map(tpl => ({ t: tpl, s: scoreTemplate(tpl, profile) }))
-    .sort((a, b) => b.s - a.s);
+    .map(tpl => ({ t: tpl, e: evalTemplate(tpl, profile) }))
+    .sort((a, b) => b.e.score - a.e.score);
 
-  const reco = scored.filter(x => x.s > 0);
-  const others = scored.filter(x => x.s <= 0 && x.s !== -1);
-  const locked = scored.filter(x => x.s === -1);
+  const reco = scored.filter(x => x.e.canRun && x.e.goalMatch && x.e.levelOk);
+  const others = scored.filter(x => x.e.canRun && !(x.e.goalMatch && x.e.levelOk));
+  const locked = scored.filter(x => !x.e.canRun);
 
   let html = '';
   if (reco.length) {
     html += `<h2 class="tpl-section">${t('tpl.recommended')}</h2>
-      <div class="tpl-grid">${reco.map(x => card(x.t, true)).join('')}</div>`;
+      <div class="tpl-grid">${reco.map(x => card(x.t, x.e, true)).join('')}</div>`;
   }
   if (others.length) {
     html += `<h2 class="tpl-section">${t('tpl.others')}</h2>
-      <div class="tpl-grid">${others.map(x => card(x.t, false)).join('')}</div>`;
+      <div class="tpl-grid">${others.map(x => card(x.t, x.e, false)).join('')}</div>`;
   }
   if (locked.length) {
     html += `<h2 class="tpl-section">${t('tpl.locked')}</h2>
-      <div class="tpl-grid tpl-grid-locked">${locked.map(x => card(x.t, false)).join('')}</div>`;
+      <div class="tpl-grid tpl-grid-locked">${locked.map(x => card(x.t, x.e, false)).join('')}</div>`;
   }
   $('templatesBody').innerHTML = html;
 }

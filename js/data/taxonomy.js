@@ -28,6 +28,20 @@ export const GOALS = {
   'mobility':    { id: 'mobility',    label: 'Mobilità',      short: 'Flessibilità',         icon: '🧘', color: '#00bcd4' },
 };
 
+// Fitness levels — drive exercise complexity, volume and overall intensity.
+// base         : never trained / getting back into movement → simple, low impact
+// intermediate : trains regularly, fairly athletic → standard volume & complexity
+// advanced     : very trained and athletic → hardest variants, max intensity
+export const LEVELS = {
+  base:         { id: 'base',         label: 'Base',      short: 'Riparti con calma',   icon: '🌱', color: '#32d583' },
+  intermediate: { id: 'intermediate', label: 'Intermedio', short: 'Mediamente allenato', icon: '🔥', color: '#ff9a00' },
+  advanced:     { id: 'advanced',     label: 'Avanzato',   short: 'Al limite',           icon: '⚡', color: '#ff5f2e' },
+};
+export const LEVEL_ORDER = ['base', 'intermediate', 'advanced'];
+
+// Numeric rank for comparing levels (exercise difficulty / template demand).
+export const LEVEL_RANK = { base: 1, intermediate: 2, advanced: 3 };
+
 // Goals that cannot coexist (opposite physiological demands).
 // When one is selected, the conflicting ones get disabled in the UI.
 export const GOAL_CONFLICTS = {
@@ -72,6 +86,11 @@ const GOALS_EN = {
   'endurance':   { label: 'Endurance',  short: 'Cardio' },
   'mobility':    { label: 'Mobility',   short: 'Flexibility' },
 };
+const LEVELS_EN = {
+  base:         { label: 'Beginner',     short: 'Ease back in' },
+  intermediate: { label: 'Intermediate', short: 'Fairly trained' },
+  advanced:     { label: 'Advanced',     short: 'To the limit' },
+};
 const ZONES_EN = {
   'full-body': 'Full body', 'upper': 'Upper body', 'lower': 'Legs',
   'core': 'Core', 'glutes': 'Glutes',
@@ -88,6 +107,8 @@ export function goalShort(id) { return (isEn() && GOALS_EN[id]?.short) || GOALS[
 export function equipmentLabel(id) { return (isEn() && EQUIPMENT_EN[id]) || EQUIPMENT[id]?.label || id; }
 export function zoneLabel(id) { return (isEn() && ZONES_EN[id]) || ZONES[id]?.label || id; }
 export function muscleLabel(id) { return (isEn() && MUSCLES_EN[id]) || MUSCLES[id] || id; }
+export function levelLabel(id) { return (isEn() && LEVELS_EN[id]?.label) || LEVELS[id]?.label || id; }
+export function levelShort(id) { return (isEn() && LEVELS_EN[id]?.short) || LEVELS[id]?.short || id; }
 
 // Given a set of selected goals, return the set of goals that must be disabled.
 export function conflictingGoals(selected) {

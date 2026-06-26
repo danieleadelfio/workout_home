@@ -166,3 +166,41 @@ export const EXERCISE_BY_SLUG = Object.fromEntries(EXERCISE_LIBRARY.map(e => [e.
 export function getExercise(slug) {
   return EXERCISE_BY_SLUG[slug] || null;
 }
+
+// ─── Difficulty tiers ─────────────────────────────────────────────────────────
+// 1 = base (simple, low impact), 2 = intermediate (standard skill/volume),
+// 3 = advanced (high skill / high intensity). Drives level-based plan
+// generation in recommend.js. Anything omitted defaults to base (1).
+export const EXERCISE_DIFFICULTY = {
+  // bodyweight · legs
+  'squat': 1, 'squat-sumo': 1, 'lunges': 2, 'lateral-lunges': 2, 'step-up': 1,
+  'glute-bridge': 1, 'single-leg-glute-bridge': 3, 'wall-sit': 1, 'calf-raise': 1,
+  // bodyweight · core
+  'plank': 1, 'side-plank': 2, 'crunch': 1, 'reverse-crunch': 2, 'bicycle-crunch': 2,
+  'mountain-climber': 2, 'hollow-body': 3, 'superman': 1, 'leg-raise': 2,
+  // bodyweight · push
+  'pushup': 2, 'diamond-pushup': 3, 'incline-pushup': 1, 'pike-pushup': 3, 'dips': 2,
+  // bodyweight · cardio
+  'burpee': 3, 'jumping-jack': 1, 'high-knees': 1, 'squat-jump': 2,
+  // bodyweight · mobility
+  'cat-cow': 1, 'quad-stretch': 1, 'hamstring-stretch': 1, 'chest-stretch': 1,
+  'shoulder-stretch': 1, 'deep-breathing': 1, 'world-greatest-stretch': 2,
+  // dumbbell
+  'db-goblet-squat': 1, 'db-lunges': 2, 'db-romanian-deadlift': 2, 'db-bench-press': 2,
+  'db-floor-press': 1, 'db-shoulder-press': 2, 'db-lateral-raise': 1, 'db-row': 1,
+  'db-bicep-curl': 1, 'db-tricep-extension': 1,
+  // barbell
+  'bb-back-squat': 3, 'bb-deadlift': 3, 'bb-bench-press': 2, 'bb-row': 2,
+  'bb-overhead-press': 2, 'bb-hip-thrust': 2,
+  // kettlebell
+  'kb-swing': 2, 'kb-goblet-squat': 1, 'kb-clean-press': 3, 'kb-deadlift': 1,
+  // band
+  'band-squat': 1, 'band-row': 1, 'band-pull-apart': 1, 'band-glute-kickback': 1,
+  'band-lateral-walk': 1,
+  // pull-up bar
+  'pullup': 3, 'chinup': 3, 'hanging-leg-raise': 3, 'dead-hang': 2,
+};
+
+export function exDifficulty(slug) {
+  return EXERCISE_DIFFICULTY[slug] || 1;
+}

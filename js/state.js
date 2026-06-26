@@ -50,13 +50,13 @@ function exFromLib(slug, overrides = {}) {
 export { exFromLib };
 
 // ─── Profile ────────────────────────────────────────────────────────────────
-// { equipment: string[], goals: string[], onboarded: boolean }
+// { equipment: string[], goals: string[], level: string, onboarded: boolean }
 export function loadProfile() {
   try {
     const s = localStorage.getItem(PROFILE_KEY);
     if (s) return JSON.parse(s);
   } catch (e) {}
-  return { equipment: [], goals: [], onboarded: false };
+  return { equipment: [], goals: [], level: 'base', onboarded: false };
 }
 
 export function saveProfile(profile) {

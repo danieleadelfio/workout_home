@@ -79,6 +79,8 @@ const DICT = {
     'onb.subtitle': 'Personalizziamo gli esercizi in base a ciò che hai e ai tuoi obiettivi.',
     'onb.equipQ': 'Cosa hai a disposizione?',
     'onb.equipHelp': 'Il corpo libero è sempre incluso. Seleziona gli attrezzi che possiedi.',
+    'onb.levelQ': 'Qual è il tuo livello?',
+    'onb.levelHelp': 'Adattiamo esercizi, ripetizioni e intensità alla tua esperienza.',
     'onb.goalQ': 'Qual è il tuo obiettivo?',
     'onb.goalHelp': 'Puoi sceglierne più di uno. Obiettivi opposti si escludono a vicenda.',
     'onb.start': 'Inizia ad allenarti',
@@ -173,6 +175,7 @@ const DICT = {
     'tpl.rounds': '🔁 {n} giri',
     'tpl.exercises': '🏃 {n} esercizi',
     'tpl.use': 'Usa questo template',
+    'tpl.needEquip': '🔒 Attrezzo mancante',
 
     // Favorites
     'favorites.title': 'Preferiti',
@@ -241,6 +244,8 @@ const DICT = {
     'onb.subtitle': 'We tailor the exercises to what you have and your goals.',
     'onb.equipQ': 'What do you have?',
     'onb.equipHelp': 'Bodyweight is always included. Select the equipment you own.',
+    'onb.levelQ': 'What is your level?',
+    'onb.levelHelp': 'We adapt exercises, reps and intensity to your experience.',
     'onb.goalQ': 'What is your goal?',
     'onb.goalHelp': 'You can pick more than one. Opposite goals exclude each other.',
     'onb.start': 'Start training',
@@ -335,6 +340,7 @@ const DICT = {
     'tpl.rounds': '🔁 {n} rounds',
     'tpl.exercises': '🏃 {n} exercises',
     'tpl.use': 'Use this template',
+    'tpl.needEquip': '🔒 Equipment needed',
 
     // Favorites
     'favorites.title': 'Favorites',
