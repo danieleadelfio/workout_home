@@ -16,6 +16,7 @@ const STEPS = [
   { target: '#btnGenerate',  title: 'tour.generate.title', body: 'tour.generate.body' },
   { target: '#homePhases',   title: 'tour.stages.title',   body: 'tour.stages.body' },
   { target: '.home-actions', title: 'tour.actions.title',  body: 'tour.actions.body' },
+  { target: '#btnPrograms',  title: 'tour.programs.title', body: 'tour.programs.body' },
   { target: '#btnStart',     title: 'tour.start.title',    body: 'tour.start.body' },
   { target: '#btnHelp',      title: 'tour.help.title',     body: 'tour.help.body' },
 ];

@@ -106,3 +106,23 @@ export function configFromTemplate(tpl) {
     cooldown: map(tpl.cooldown),
   };
 }
+
+// Build a runnable config from one day of a program (scheda). Program days
+// already carry fully-formed exercise objects (built with exFromLib), so we
+// simply clone them and record the program + day for localized naming.
+export function configFromProgramDay(program, dayIndex) {
+  const day = program.days[dayIndex];
+  const clone = arr => (arr || []).map(x => ({ ...x }));
+  return {
+    name: `${program.name} · ${day.name}`,
+    programId: program.id,
+    programDay: dayIndex,
+    rounds: day.rounds,
+    restBetweenEx: day.restBetweenEx,
+    restBetweenRounds: day.restBetweenRounds,
+    warmup: clone(day.warmup),
+    circuit: clone(day.circuit),
+    cooldown: clone(day.cooldown),
+  };
+}
+

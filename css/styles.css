@@ -17,6 +17,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);
 .btn{border:none;border-radius:14px;font-size:15px;font-weight:700;padding:14px;
   cursor:pointer;font-family:inherit;color:var(--text)}
 .btn-accent{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.btn-ghost{background:var(--surface2);border:1px solid var(--border)!important;color:var(--text)}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 
 /* ─── HOME ─────────────────────────────────────────────────────────────────── */
@@ -70,8 +71,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);
 .phase-ex-name{flex:1;min-width:0;font-size:13px;font-weight:600}
 .phase-ex-meta{flex-shrink:0;font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap}
 
-.home-actions{display:flex;gap:10px;margin-bottom:10px}
-.home-action{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:14px;
+.home-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px}
+.home-action{background:var(--surface);border:1px solid var(--border);border-radius:14px;
   color:var(--text);font-size:13px;font-weight:700;padding:14px 8px;cursor:pointer;font-family:inherit;
   display:flex;flex-direction:column;align-items:center;gap:6px}
 .home-action .ico{font-size:20px}
@@ -178,6 +179,26 @@ html,body{height:100%;background:var(--bg);color:var(--text);
 .tpl-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;border:1px solid}
 .tpl-meta{display:flex;flex-wrap:wrap;gap:12px;font-size:11px;color:var(--muted);margin-bottom:14px}
 .tpl-use{width:100%}
+
+/* ─── PROGRAMS (SCHEDE) ─────────────────────────────────── */
+.prog-intro{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:16px}
+.prog-toggle{width:100%;font-size:13px;padding:11px}
+.prog-days{display:none;flex-direction:column;gap:10px;margin-top:12px}
+.prog-days.open{display:flex}
+.prog-day{background:var(--surface2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.prog-day-hd{width:100%;background:none;border:none;cursor:pointer;color:var(--text);font-family:inherit;
+  text-align:left;display:flex;align-items:center;gap:12px;padding:12px 14px}
+.prog-day-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;
+  font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.prog-day-text{flex:1;min-width:0}
+.prog-day-name{font-size:14px;font-weight:800;line-height:1.2}
+.prog-day-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.prog-day-caret{flex-shrink:0;color:var(--muted);font-size:12px;transition:transform .25s}
+.prog-day.open .prog-day-caret{transform:rotate(180deg)}
+.prog-day-detail{display:none;flex-direction:column;gap:8px;padding:2px 14px 14px 14px}
+.prog-day.open .prog-day-detail{display:flex}
+.prog-day-detail .phase-ex{padding-left:2px}
+.prog-day-use{width:100%;margin-top:6px;font-size:14px}
 
 /* ─── FAVORITES ────────────────────────────────────────────────────────────── */
 .fav-save-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:18px}

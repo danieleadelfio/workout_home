@@ -59,6 +59,7 @@
   </div>
 
   <div class="home-actions">
+    <button class="home-action" id="btnPrograms"><span class="ico">🗓️</span><span data-i18n="home.programs">Schede</span></button>
     <button class="home-action" id="btnTemplates"><span class="ico">📋</span><span data-i18n="home.templates">Template</span></button>
     <button class="home-action" id="btnFavorites"><span class="ico">⭐</span><span data-i18n="home.favorites">Preferiti</span></button>
     <button class="home-action" id="btnEdit"><span class="ico">✏️</span><span data-i18n="home.customize">Personalizza</span></button>
@@ -133,7 +134,17 @@
   </div>
   <div class="subscreen-body" id="templatesBody"></div>
 </section>
-
+<!-- ─── PROGRAMS (SCHEDE) ───────────────────────────────────── -->
+<section id="screen-programs" class="screen">
+  <div class="subscreen-header">
+    <button class="back" id="progBack">←</button>
+    <div class="title" data-i18n="programs.title">Schede allenamento</div>
+  </div>
+  <div class="subscreen-body">
+    <p class="prog-intro" data-i18n="programs.intro">Programmi strutturati su più giorni. Apri una scheda, scegli il giorno e allenati: ogni giorno diventa il tuo allenamento del momento.</p>
+    <div id="programsBody"></div>
+  </div>
+</section>
 <!-- ─── FAVORITES ──────────────────────────────────────────────────────────── -->
 <section id="screen-favorites" class="screen">
   <div class="subscreen-header">

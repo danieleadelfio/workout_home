@@ -8,6 +8,7 @@
 import { getLang, t } from '../i18n.js';
 import { EXERCISE_BY_SLUG } from './exercises.js';
 import { TEMPLATE_BY_ID } from './templates.js';
+import { PROGRAM_BY_ID } from './programs.js';
 import { goalLabel, equipmentLabel } from './taxonomy.js';
 
 const isEn = () => getLang() === 'en';
@@ -77,6 +78,17 @@ export const EXERCISE_EN = {
   'chinup': { name: 'Chin-ups', tip: 'Palms facing you. Involves the biceps more than classic pull-ups.' },
   'hanging-leg-raise': { name: 'Hanging leg raise', tip: 'Hanging from the bar, lift straight legs to 90° without swinging.' },
   'dead-hang': { name: 'Dead hang', tip: 'Hanging with straight arms. Decompresses the spine and strengthens your grip.' },
+  'lat-pulldown': { name: 'Lat pulldown', tip: 'Wide grip, pull the bar to your chest driving your elbows down. Avoid swinging your torso.' },
+  'seated-cable-row': { name: 'Seated cable row', tip: "Back straight, pull the handle to your abdomen squeezing your shoulder blades. Don't lean back." },
+  'cable-fly': { name: 'Cable fly', tip: 'Elbows slightly bent, bring the handles in front of your chest in an arc. Control the return.' },
+  'cable-tricep-pushdown': { name: 'Tricep pushdown', tip: 'Elbows fixed at your sides, extend your arms down. Only the forearm moves.' },
+  'cable-crunch': { name: 'Cable crunch', tip: "Kneeling, rope behind your head. Curl your torso contracting the abs, don't pull with your arms." },
+  'leg-curl': { name: 'Leg curl', tip: 'Prone or seated on the machine, bend your knees bringing your heels to your glutes under control.' },
+  'russian-twist': { name: 'Weighted Russian twist', tip: 'Seated, torso leaned back and feet raised. Rotate the weight from side to side under control.' },
+  'sit-up': { name: 'Sit-up', tip: 'Feet on the floor, rise until your torso is vertical contracting the abs without jerking.' },
+  'ab-wheel': { name: 'Ab wheel', tip: "On your knees, roll forward keeping your core braced and back neutral. Don't arch your lower back." },
+  'cardio-steady': { name: 'Steady-state cardio', tip: '15-20 min at a steady, moderate pace: treadmill, bike, elliptical or light jog.' },
+  'cardio-hiit': { name: 'HIIT cardio', tip: '20 min of intervals: alternate 30-40 sec of high intensity with 60-90 sec of active recovery.' },
 };
 
 // ─── Templates (id → { name, desc }) ─────────────────────────────────────────
@@ -96,6 +108,20 @@ export const TEMPLATE_EN = {
   'band-glutes': { name: 'Glutes with Bands', desc: 'Activate and tone your glutes with elastic resistance.' },
   'band-upper-tone': { name: 'Toned Upper with Bands', desc: 'Defined back and shoulders with bands only.' },
   'bar-upper-strength': { name: 'Pull-up Bar Pulling', desc: 'Pull-ups and bar work for a strong, wide back.' },
+};
+
+// ─── Programs / schede (id → { name, desc, days:{ dayId → { name, focus } } }) ──
+export const PROGRAM_EN = {
+  'prog-4day-upperlower-core': {
+    name: '4-Day Program · Upper/Lower + Core',
+    desc: 'A 4-day weekly split: two upper-body sessions (push and pull), one maintenance leg day and one metabolic full-body day. Core and cardio in every workout.',
+    days: {
+      d1: { name: 'Day 1 · Upper Push + Core', focus: 'Upper-body push' },
+      d2: { name: 'Day 2 · Upper Pull + Core', focus: 'Upper-body pull' },
+      d3: { name: 'Day 3 · Legs + Core', focus: 'Legs (maintenance)' },
+      d4: { name: 'Day 4 · Metabolic Full Body + Core', focus: 'Metabolic circuit' },
+    },
+  },
 };
 
 // ─── Display helpers ─────────────────────────────────────────────────────────
@@ -129,6 +155,31 @@ export function tplDesc(tpl) {
   return (isEn() && TEMPLATE_EN[o.id]?.desc) || o.desc;
 }
 
+// Program object (or id) → localized name / description.
+export function progName(prog) {
+  const o = typeof prog === 'string' ? PROGRAM_BY_ID[prog] : prog;
+  if (!o) return typeof prog === 'string' ? prog : '';
+  return (isEn() && PROGRAM_EN[o.id]?.name) || o.name;
+}
+export function progDesc(prog) {
+  const o = typeof prog === 'string' ? PROGRAM_BY_ID[prog] : prog;
+  if (!o) return '';
+  return (isEn() && PROGRAM_EN[o.id]?.desc) || o.desc;
+}
+// Program day (index) → localized name / focus.
+export function dayName(prog, dayIndex) {
+  const o = typeof prog === 'string' ? PROGRAM_BY_ID[prog] : prog;
+  const day = o?.days?.[dayIndex];
+  if (!day) return '';
+  return (isEn() && PROGRAM_EN[o.id]?.days?.[day.id]?.name) || day.name;
+}
+export function dayFocus(prog, dayIndex) {
+  const o = typeof prog === 'string' ? PROGRAM_BY_ID[prog] : prog;
+  const day = o?.days?.[dayIndex];
+  if (!day) return '';
+  return (isEn() && PROGRAM_EN[o.id]?.days?.[day.id]?.focus) || day.focus;
+}
+
 // Build a generated-plan name in the current language.
 export function planName(goal, equipment) {
   const equip = (equipment && equipment.length)
@@ -143,6 +194,7 @@ export function planName(goal, equipment) {
 //   - custom / renamed config → stored name verbatim
 export function localizedConfigName(cfg) {
   if (!cfg) return '';
+  if (cfg.programId && PROGRAM_BY_ID[cfg.programId]) return `${progName(cfg.programId)} · ${dayName(cfg.programId, cfg.programDay)}`;
   if (cfg.templateId && TEMPLATE_BY_ID[cfg.templateId]) return tplName(cfg.templateId);
   if (cfg.nameMeta) return planName(cfg.nameMeta.goal, cfg.nameMeta.equipment);
   return cfg.name || '';

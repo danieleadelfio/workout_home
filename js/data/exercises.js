@@ -158,6 +158,36 @@ export const EXERCISE_LIBRARY = [
     sets:3, reps:10, secs:50, tip:'Appeso alla sbarra, solleva le gambe tese fino a 90 gradi senza dondolare.' },
   { slug:'dead-hang', name:'Dead hang', type:'weights', equipment:['pullupbar'], muscles:['back','arms','mobility'], goals:['mobility','strength'], video:'XLLn0FFvUVw',
     sets:3, reps:0, secs:30, tip:'Appeso a braccia tese. Decomprime la colonna e rinforza la presa.' },
+
+  // ═══════════════════════════ WEIGHTS · PALESTRA (CAVI & MACCHINE) ═══════════════════════════
+  { slug:'lat-pulldown', name:'Lat machine avanti', type:'weights', equipment:['gym'], muscles:['back','arms'], goals:['hypertrophy','strength','tone'], video:'CAwf7n6Luuc',
+    sets:4, reps:10, secs:55, tip:'Presa larga, tira la barra al petto portando i gomiti verso il basso. Non dondolare il busto.' },
+  { slug:'seated-cable-row', name:'Pulley basso', type:'weights', equipment:['gym'], muscles:['back','arms'], goals:['hypertrophy','strength','tone'], video:'GZbfZ033f74',
+    sets:3, reps:12, secs:55, tip:'Schiena dritta, tira l\'impugnatura all\'addome stringendo le scapole. Evita di piegarti indietro.' },
+  { slug:'cable-fly', name:'Croci ai cavi', type:'weights', equipment:['gym'], muscles:['chest'], goals:['hypertrophy','tone'], video:'taI4XduLpTk',
+    sets:3, reps:12, secs:50, tip:'Gomiti leggermente flessi, porta le maniglie davanti al petto disegnando un arco. Controlla il ritorno.' },
+  { slug:'cable-tricep-pushdown', name:'Push down tricipiti', type:'weights', equipment:['gym'], muscles:['arms'], goals:['hypertrophy','tone'], video:'2-LAMcpzODU',
+    sets:3, reps:12, secs:45, tip:'Gomiti fermi ai fianchi, estendi le braccia verso il basso. Si muove solo l\'avambraccio.' },
+  { slug:'cable-crunch', name:'Crunch su cavo', type:'weights', equipment:['gym'], muscles:['core'], goals:['hypertrophy','tone'], video:'3qjoXDTuyOE',
+    sets:3, reps:15, secs:45, tip:'In ginocchio, corda dietro la nuca. Arrotola il busto contraendo gli addominali, non tirare con le braccia.' },
+  { slug:'leg-curl', name:'Leg curl', type:'weights', equipment:['gym'], muscles:['legs'], goals:['hypertrophy','strength','tone'], video:'1Tq3QdYUuHs',
+    sets:2, reps:12, secs:50, tip:'Prono o seduto alla macchina, fletti le ginocchia portando i talloni verso i glutei con controllo.' },
+
+  // ═══════════════════════════ WEIGHTS · CORE CON SOVRACCARICO ═══════════════════════════
+  { slug:'russian-twist', name:'Russian twist con peso', type:'weights', equipment:['dumbbell'], muscles:['core'], goals:['tone','fat-loss'], video:'wkD8rjkodUI',
+    sets:3, reps:15, secs:45, tip:'Seduto, busto inclinato indietro e piedi sollevati. Ruota il peso da un lato all\'altro con controllo.' },
+
+  // ═══════════════════════════ BODYWEIGHT · CORE (SCHEDE) ═══════════════════════════
+  { slug:'sit-up', name:'Sit-up', type:'bodyweight', equipment:['none'], muscles:['core'], goals:['tone','hypertrophy'], video:'jDwoBqPH0jk',
+    sets:3, reps:15, secs:45, tip:'Piedi a terra, risali fino a portare il busto verticale contraendo gli addominali senza strappi.' },
+  { slug:'ab-wheel', name:'Ab wheel', type:'bodyweight', equipment:['none'], muscles:['core'], goals:['strength','tone'], video:'A9BYjA9ynFY',
+    sets:3, reps:12, secs:45, tip:'In ginocchio, rulla in avanti mantenendo il core contratto e la schiena neutra. Non inarcare la zona lombare.' },
+
+  // ═══════════════════════════ BODYWEIGHT · CARDIO (SCHEDE) ═══════════════════════════
+  { slug:'cardio-steady', name:'Cardio a ritmo costante', type:'bodyweight', equipment:['none'], muscles:['cardio'], goals:['fat-loss','endurance'], video:'kEQKKcvBiQo',
+    sets:1, reps:0, secs:1080, tip:'15-20 min a ritmo costante e moderato: tapis roulant, cyclette, ellittica o corsa leggera.' },
+  { slug:'cardio-hiit', name:'Cardio HIIT', type:'bodyweight', equipment:['none'], muscles:['cardio'], goals:['fat-loss','endurance'], video:'ml6cT4AZdqI',
+    sets:1, reps:0, secs:1200, tip:'20 min a intervalli: alterna 30-40 sec ad alta intensità a 60-90 sec di recupero attivo.' },
 ];
 
 // Quick lookup by slug
@@ -199,6 +229,11 @@ export const EXERCISE_DIFFICULTY = {
   'band-lateral-walk': 1,
   // pull-up bar
   'pullup': 3, 'chinup': 3, 'hanging-leg-raise': 3, 'dead-hang': 2,
+  // gym · cables & machines
+  'lat-pulldown': 2, 'seated-cable-row': 1, 'cable-fly': 2, 'cable-tricep-pushdown': 1,
+  'cable-crunch': 2, 'leg-curl': 1,
+  // weighted / bodyweight core + cardio
+  'russian-twist': 2, 'sit-up': 1, 'ab-wheel': 3, 'cardio-steady': 1, 'cardio-hiit': 2,
 };
 
 export function exDifficulty(slug) {

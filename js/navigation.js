@@ -3,7 +3,7 @@
 // with ids: home, workout, done, editor, templates, library, onboarding.
 // ════════════════════════════════════════════════════════════════════════════
 
-const SCREENS = ['onboarding', 'home', 'workout', 'done', 'editor', 'templates', 'favorites', 'library'];
+const SCREENS = ['onboarding', 'home', 'workout', 'done', 'editor', 'templates', 'programs', 'favorites', 'library'];
 const hooks = {};
 
 // Register a callback to run whenever a screen becomes visible.

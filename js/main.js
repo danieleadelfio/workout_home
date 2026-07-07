@@ -9,6 +9,7 @@ import { initAudio } from './audio.js';
 import { initVideoDelegation } from './video.js';
 import { initOnboarding, openOnboarding } from './onboarding.js';
 import { initTemplates, openTemplates } from './templatesUI.js';
+import { initPrograms, openPrograms } from './programsUI.js';
 import { initLibrary } from './library.js';
 import { initFavorites, openFavorites } from './favorites.js';
 import { initEditor, openEditor } from './editor.js';
@@ -34,6 +35,7 @@ function reRenderActive() {
   updateHome();
   const id = document.querySelector('.screen.active')?.id;
   if (id === 'screen-templates') openTemplates(refreshHome);
+  else if (id === 'screen-programs') openPrograms(refreshHome);
   else if (id === 'screen-favorites') openFavorites(refreshHome);
   else if (id === 'screen-editor') openEditor(refreshHome);
 }
@@ -49,6 +51,7 @@ function boot() {
   initVideoDelegation();
   initOnboarding();
   initTemplates();
+  initPrograms();
   initLibrary();
   initFavorites();
   initEditor();
@@ -67,6 +70,7 @@ function boot() {
   $('btnStart').addEventListener('click', () => { initAudio(); startWorkout(); });
   $('btnEdit').addEventListener('click', () => openEditor(refreshHome));
   $('btnTemplates').addEventListener('click', () => openTemplates(refreshHome));
+  $('btnPrograms').addEventListener('click', () => openPrograms(refreshHome));
   $('btnFavorites').addEventListener('click', () => openFavorites(refreshHome));
   $('btnProfile').addEventListener('click', () => openOnboarding(() => { refreshHome(); showScreen('home'); }));
   $('btnGenerate').addEventListener('click', () => {
@@ -85,6 +89,7 @@ function boot() {
   $('btnDoneHome').addEventListener('click', () => showScreen('home'));
   $('edBack').addEventListener('click', () => { refreshHome(); showScreen('home'); });
   $('tplBack').addEventListener('click', () => showScreen('home'));
+  $('progBack').addEventListener('click', () => showScreen('home'));
   $('favBack').addEventListener('click', () => showScreen('home'));
 
   // First launch → onboarding, otherwise home

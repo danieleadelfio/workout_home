@@ -14,10 +14,11 @@ export const EQUIPMENT = {
   band:       { id: 'band',       label: 'Elastici',      icon: '🎗️', color: '#4e9fff' },
   bench:      { id: 'bench',      label: 'Panca',         icon: '🛋️', color: '#7a7a8a' },
   pullupbar:  { id: 'pullupbar',  label: 'Sbarra',        icon: '🚪', color: '#00bcd4' },
+  gym:        { id: 'gym',        label: 'Palestra',      icon: '🏢', color: '#ffca28' },
 };
 
 // Equipment the user can SELECT in onboarding (everyone always has bodyweight)
-export const SELECTABLE_EQUIPMENT = ['dumbbell', 'barbell', 'kettlebell', 'band', 'bench', 'pullupbar'];
+export const SELECTABLE_EQUIPMENT = ['dumbbell', 'barbell', 'kettlebell', 'band', 'bench', 'pullupbar', 'gym'];
 
 export const GOALS = {
   'fat-loss':    { id: 'fat-loss',    label: 'Dimagrimento',  short: 'Brucia grassi',        icon: '🔥', color: '#ff5f2e' },
@@ -77,6 +78,7 @@ export const MUSCLES = {
 const EQUIPMENT_EN = {
   none: 'Bodyweight', dumbbell: 'Dumbbells', barbell: 'Barbell',
   kettlebell: 'Kettlebell', band: 'Bands', bench: 'Bench', pullupbar: 'Pull-up bar',
+  gym: 'Gym (cables & machines)',
 };
 const GOALS_EN = {
   'fat-loss':    { label: 'Fat loss',   short: 'Fat burn' },

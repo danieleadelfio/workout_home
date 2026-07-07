@@ -97,6 +97,7 @@ const DICT = {
     'home.stat.rounds': 'Giri',
     'home.stat.exercises': 'Esercizi',
     'home.templates': 'Template',
+    'home.programs': 'Schede',
     'home.favorites': 'Preferiti',
     'home.customize': 'Personalizza',
     'home.start': 'Inizia allenamento →',
@@ -177,6 +178,17 @@ const DICT = {
     'tpl.use': 'Usa questo template',
     'tpl.needEquip': '🔒 Attrezzo mancante',
 
+    // Programs (schede)
+    'programs.title': 'Schede allenamento',
+    'programs.intro': 'Programmi strutturati su più giorni. Apri una scheda, scegli il giorno e allenati: ogni giorno diventa il tuo allenamento del momento.',
+    'prog.days': '{n} giorni',
+    'prog.perWeek': '{n} giorni / settimana',
+    'prog.exercises': '{n} esercizi',
+    'prog.showDays': '📅 Mostra i giorni',
+    'prog.hideDays': '✕ Nascondi i giorni',
+    'prog.trainDay': 'Allena questo giorno →',
+    'prog.empty': 'Nessuna scheda disponibile.',
+
     // Favorites
     'favorites.title': 'Preferiti',
     'favorites.saveLabel': "Salva l'allenamento attuale",
@@ -220,6 +232,8 @@ const DICT = {
     'tour.stages.body': 'L\'allenamento ha tre fasi: riscaldamento, circuito e defaticamento. Tocca ogni fase per vedere gli esercizi. Ogni giro del circuito è una serie.',
     'tour.actions.title': 'Template e personalizzazione',
     'tour.actions.body': 'Scegli allenamenti pronti (Template), salva i tuoi preferiti o personalizza ogni esercizio, serie e tempo.',
+    'tour.programs.title': 'Schede multi-giorno',
+    'tour.programs.body': 'In “Schede” trovi programmi strutturati su più giorni (es. split di 4 giorni). Apri una scheda, scegli il giorno e allenati: diventa il tuo allenamento del momento.',
     'tour.start.title': 'Inizia!',
     'tour.start.body': 'Premi qui per partire: un timer guidato ti accompagna esercizio per esercizio, con segnali audio e video di esempio.',
     'tour.help.title': 'Serve aiuto?',
@@ -262,6 +276,7 @@ const DICT = {
     'home.stat.rounds': 'Rounds',
     'home.stat.exercises': 'Exercises',
     'home.templates': 'Templates',
+    'home.programs': 'Programs',
     'home.favorites': 'Favorites',
     'home.customize': 'Customize',
     'home.start': 'Start workout →',
@@ -342,6 +357,17 @@ const DICT = {
     'tpl.use': 'Use this template',
     'tpl.needEquip': '🔒 Equipment needed',
 
+    // Programs (schede)
+    'programs.title': 'Training programs',
+    'programs.intro': 'Structured multi-day plans. Open a program, pick the day and train: each day becomes your current workout.',
+    'prog.days': '{n} days',
+    'prog.perWeek': '{n} days / week',
+    'prog.exercises': '{n} exercises',
+    'prog.showDays': '📅 Show the days',
+    'prog.hideDays': '✕ Hide the days',
+    'prog.trainDay': 'Train this day →',
+    'prog.empty': 'No program available.',
+
     // Favorites
     'favorites.title': 'Favorites',
     'favorites.saveLabel': 'Save the current workout',
@@ -385,6 +411,8 @@ const DICT = {
     'tour.stages.body': 'The workout has three stages: warm-up, circuit and cool-down. Tap each stage to see the exercises. Each circuit round is one set.',
     'tour.actions.title': 'Templates and customization',
     'tour.actions.body': 'Pick ready-made workouts (Templates), save your favorites, or customize every exercise, set and time.',
+    'tour.programs.title': 'Multi-day programs',
+    'tour.programs.body': 'Under “Programs” you’ll find structured multi-day plans (e.g. a 4-day split). Open a program, pick the day and train: it becomes your current workout.',
     'tour.start.title': 'Get started!',
     'tour.start.body': 'Press here to begin: a guided timer walks you through each exercise, with audio cues and example videos.',
     'tour.help.title': 'Need help?',
