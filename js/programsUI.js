@@ -11,7 +11,7 @@ import { configFromProgramDay } from './state.js';
 import { showScreen } from './navigation.js';
 import { progName, progDesc, dayName, dayFocus, stepName } from './data/i18n-content.js';
 import { t } from './i18n.js';
-import { esc, exerciseDetail, $ } from './util.js';
+import { esc, $ } from './util.js';
 
 let onApply = null;
 // Track which program/day panels are expanded across re-renders.
@@ -29,11 +29,15 @@ function badge(text, color) {
 }
 
 function dayExercises(list) {
-  return list.map(s => `
+  return list.map(s => {
+    const base = s.reps > 0 ? t('unit.reps', { n: s.reps }) : t('unit.secs', { n: s.secs });
+    const meta = (s.sets || 1) > 1 ? `${s.sets} × ${base}` : base;
+    return `
     <div class="phase-ex">
       <span class="phase-ex-name">${esc(stepName(s))}</span>
-      <span class="phase-ex-meta">${esc(exerciseDetail({ ...s, isRest: false }))}</span>
-    </div>`).join('');
+      <span class="phase-ex-meta">${esc(meta)}</span>
+    </div>`;
+  }).join('');
 }
 
 function dayPanel(prog, day, i, locked) {

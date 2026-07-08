@@ -6,10 +6,12 @@
 // Model: { id, name, desc, goals, level, equipment, daysPerWeek, days[] }
 //   equipment : array of equipment ids required to run it (['none'] = bodyweight)
 //   level     : suggested fitness level ('base' | 'intermediate' | 'advanced')
-//   days[]    : { id, name, focus, rounds, restBetweenEx, restBetweenRounds,
+//   days[]    : { id, name, focus, restBetweenSets, restBetweenEx,
 //                 warmup[], circuit[], cooldown[] } — same shape as a config.
-// Each round of the circuit is one set (coherent with the workout engine), so
-// the per-exercise reps/durations describe a single set.
+// A program day runs as STRAIGHT SETS: each circuit exercise is performed for
+// all of its sets in a row (rep-based sets are untimed — you press Next when you
+// finish the reps), with a short rest between sets and a longer rest before the
+// next exercise.
 // ════════════════════════════════════════════════════════════════════════════
 
 import { LEVEL_RANK } from './taxonomy.js';
@@ -32,7 +34,7 @@ export const PROGRAMS = [
         id: 'd1',
         name: 'Giorno 1 · Upper Push + Core',
         focus: 'Spinta parte alta',
-        rounds: 3, restBetweenEx: 60, restBetweenRounds: 90,
+        restBetweenSets: 30, restBetweenEx: 60,
         warmup: [
           exFromLib('high-knees', { secs: 60 }),
           exFromLib('world-greatest-stretch', { secs: 50 }),
@@ -59,7 +61,7 @@ export const PROGRAMS = [
         id: 'd2',
         name: 'Giorno 2 · Upper Pull + Core',
         focus: 'Trazione parte alta',
-        rounds: 3, restBetweenEx: 60, restBetweenRounds: 90,
+        restBetweenSets: 30, restBetweenEx: 60,
         warmup: [
           exFromLib('high-knees', { secs: 60 }),
           exFromLib('world-greatest-stretch', { secs: 50 }),
@@ -86,7 +88,7 @@ export const PROGRAMS = [
         id: 'd3',
         name: 'Giorno 3 · Gambe + Core',
         focus: 'Gambe (mantenimento)',
-        rounds: 3, restBetweenEx: 75, restBetweenRounds: 100,
+        restBetweenSets: 30, restBetweenEx: 60,
         warmup: [
           exFromLib('high-knees', { secs: 60 }),
           exFromLib('lateral-lunges', { secs: 60 }),
@@ -112,7 +114,7 @@ export const PROGRAMS = [
         id: 'd4',
         name: 'Giorno 4 · Full Body Metabolico + Core',
         focus: 'Circuito metabolico',
-        rounds: 3, restBetweenEx: 35, restBetweenRounds: 60,
+        restBetweenSets: 30, restBetweenEx: 60,
         warmup: [
           exFromLib('jumping-jack', { secs: 45 }),
           exFromLib('world-greatest-stretch', { secs: 50 }),

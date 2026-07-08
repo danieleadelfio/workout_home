@@ -33,20 +33,22 @@ function notify() { persistConfig(); if (onChange) onChange(); }
 
 function render() {
   const cfg = getConfig();
+  const ss = !!cfg.straightSets;
   const body = $('edBody');
   body.innerHTML = '';
 
-  // General settings
-  const gl = document.createElement('div');
-  gl.className = 'ed-section';
-  gl.innerHTML = `<div class="ed-sec-hd" data-toggle>
-      <div class="ed-sec-dot" style="background:#888"></div>
-      <div class="ed-sec-title">${t('editor.general')}</div>
-      <div class="ed-sec-caret open">&#9650;</div></div>
-    <div class="ed-sec-body open">
-      <div class="ed-frow"><div class="ed-flbl">${t('editor.name')}</div>
-        <input class="ed-finp" type="text" value="${esc(cfg.name || '')}" data-gname></div>
-      <div class="ed-globals">
+  // General settings — straight-sets schede expose set/exercise rests; circuit
+  // workouts expose rounds + between-round rest.
+  const globalsHtml = ss
+    ? `<div class="ed-globals">
+        <div class="ed-global"><div class="ed-global-lbl">${t('editor.restSets')}</div>
+          <input class="ed-global-inp" type="number" min="5" max="180" value="${cfg.restBetweenSets ?? 30}" data-g="restBetweenSets">
+          <div class="ed-global-unit">${t('unit.sec')}</div></div>
+        <div class="ed-global"><div class="ed-global-lbl">${t('editor.restExercise')}</div>
+          <input class="ed-global-inp" type="number" min="5" max="300" value="${cfg.restBetweenEx}" data-g="restBetweenEx">
+          <div class="ed-global-unit">${t('unit.sec')}</div></div>
+      </div>`
+    : `<div class="ed-globals">
         <div class="ed-global"><div class="ed-global-lbl">${t('editor.rounds')}</div>
           <input class="ed-global-inp" type="number" min="1" max="10" value="${cfg.rounds}" data-g="rounds">
           <div class="ed-global-unit">${t('editor.roundsUnit')}</div></div>
@@ -56,7 +58,18 @@ function render() {
         <div class="ed-global" style="grid-column:span 2"><div class="ed-global-lbl">${t('editor.restRounds')}</div>
           <input class="ed-global-inp" type="number" min="10" max="300" value="${cfg.restBetweenRounds}" data-g="restBetweenRounds">
           <div class="ed-global-unit">${t('unit.sec')}</div></div>
-      </div></div>`;
+      </div>`;
+
+  const gl = document.createElement('div');
+  gl.className = 'ed-section';
+  gl.innerHTML = `<div class="ed-sec-hd" data-toggle>
+      <div class="ed-sec-dot" style="background:#888"></div>
+      <div class="ed-sec-title">${t('editor.general')}</div>
+      <div class="ed-sec-caret open">&#9650;</div></div>
+    <div class="ed-sec-body open">
+      <div class="ed-frow"><div class="ed-flbl">${t('editor.name')}</div>
+        <input class="ed-finp" type="text" value="${esc(cfg.name || '')}" data-gname></div>
+      ${globalsHtml}</div>`;
   body.appendChild(gl);
 
   ['warmup', 'circuit', 'cooldown'].forEach(phase => {
@@ -77,9 +90,11 @@ function render() {
 }
 
 function detail(ex) {
-  return ex.reps > 0
+  const ss = getConfig().straightSets;
+  const base = ex.reps > 0
     ? `${t('unit.reps', { n: ex.reps })} · ${t('unit.secs', { n: ex.secs })}`
     : t('unit.secs', { n: ex.secs });
+  return ss && (ex.sets || 1) > 1 ? `${ex.sets} × ${base}` : base;
 }
 
 function renderExList(phase) {
@@ -108,6 +123,11 @@ function renderExList(phase) {
       <div class="ed-form" id="form-${phase}-${idx}">
         <div class="ed-frow"><div class="ed-flbl">${t('editor.name')}</div>
           <input class="ed-finp" type="text" value="${esc(stepName(ex))}" data-f="${phase}:${idx}:name"></div>
+        ${(cfg.straightSets && phase === 'circuit') ? `<div class="ed-frow">
+          <div class="ed-flbl">${t('editor.sets')}</div>
+          <input class="ed-finp ed-finp-sm" type="number" min="1" max="10" value="${ex.sets || 1}" data-f="${phase}:${idx}:sets">
+          <div class="ed-flbl" style="width:auto;flex:1">${t('editor.setsUnit')}</div>
+        </div>` : ''}
         <div class="ed-frow">
           <div class="ed-flbl">${t('editor.reps')}</div>
           <input class="ed-finp ed-finp-sm" type="number" min="0" max="200" value="${ex.reps}" data-f="${phase}:${idx}:reps">
@@ -238,8 +258,8 @@ export function initEditor() {
     const g = e.target.closest('[data-g]');
     if (g) {
       const key = g.dataset.g;
-      const min = key === 'rounds' ? 1 : key === 'restBetweenEx' ? 5 : 10;
-      const def = key === 'rounds' ? 3 : key === 'restBetweenEx' ? 20 : 75;
+      const min = key === 'rounds' ? 1 : (key === 'restBetweenEx' || key === 'restBetweenSets') ? 5 : 10;
+      const def = key === 'rounds' ? 3 : key === 'restBetweenSets' ? 30 : key === 'restBetweenEx' ? 20 : 75;
       const v = Math.max(min, +g.value || def);
       getConfig()[key] = v; g.value = v; notify();
       return;

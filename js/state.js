@@ -110,6 +110,9 @@ export function configFromTemplate(tpl) {
 // Build a runnable config from one day of a program (scheda). Program days
 // already carry fully-formed exercise objects (built with exFromLib), so we
 // simply clone them and record the program + day for localized naming.
+// A program day runs as STRAIGHT SETS (straightSets: true): each exercise is
+// performed for all of its sets in a row, with a short rest between sets and a
+// longer rest before the next exercise.
 export function configFromProgramDay(program, dayIndex) {
   const day = program.days[dayIndex];
   const clone = arr => (arr || []).map(x => ({ ...x }));
@@ -117,9 +120,9 @@ export function configFromProgramDay(program, dayIndex) {
     name: `${program.name} · ${day.name}`,
     programId: program.id,
     programDay: dayIndex,
-    rounds: day.rounds,
-    restBetweenEx: day.restBetweenEx,
-    restBetweenRounds: day.restBetweenRounds,
+    straightSets: true,
+    restBetweenSets: day.restBetweenSets ?? 30,
+    restBetweenEx: day.restBetweenEx ?? 60,
     warmup: clone(day.warmup),
     circuit: clone(day.circuit),
     cooldown: clone(day.cooldown),
